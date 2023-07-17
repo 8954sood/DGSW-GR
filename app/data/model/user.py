@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy import Integer, String
 from pydantic import BaseModel
-from ..db import *
+from ..db import ENGINE, Base
 
 class UserTable(Base):
     __tablename__ = "user"
@@ -27,3 +27,9 @@ class InputUser(BaseModel):
     grade: int
     class_id: int
     number: int
+
+
+
+# async with ENGINE.begin() as conn:
+#     await conn.run_sync()
+    # await conn.run_sync(Base.metadata.create_all)

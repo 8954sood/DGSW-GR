@@ -4,7 +4,7 @@ import uvicorn
 
 from router import lol, user
 
-from data.db import session, init_db
+from data.db import session, init_db, ENGINE
 from data.model.user import User, UserTable
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import declarative_base
@@ -32,7 +32,7 @@ app.add_middleware(
 @app.on_event("startup") 
 async def startup_event(): 
     print("Startup event") 
-    init_db()
+    await init_db()
     # print( Base.metadata.tables)
     # for table in Base.metadata.tables.values():
     #     print(table)
@@ -40,10 +40,14 @@ async def startup_event():
     
 
 @app.on_event("shutdown") 
-def shutdown_event():
+async def shutdown_event():
     print("Shutdown event") 
-    session.commit()
-    session.close_all()
+    async with ENGINE.begin() as conn:
+        await conn.commit()
+    # await session.close_all()
+    #     await conn.close()
+    # await session.commit()
+    # await session.close_all()
     # with open("log.txt", mode= 'a') as log : 
     #     log.write("application shutdown") 
 
