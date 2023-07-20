@@ -8,9 +8,15 @@ class CreateUserRequest(BaseModel):
     grade: int
     class_id: int
     number: int
+
 class CreateUserResponse(UserSchema):
     pass
 
 
 class ReadAllUserResponse(BaseModel):
     users: List[UserSchema]
+
+class DeleteUserRequest(BaseModel):
+    id: int
+class UpdateUserRequest(UserSchema):
+    pass
