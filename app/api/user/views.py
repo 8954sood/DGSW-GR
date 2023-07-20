@@ -7,6 +7,8 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 
 from .schema import CreateUserRequest, CreateUserResponse
 from .usecase import ReadAllUser, CreateUser
+# from core.main import r
+
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
