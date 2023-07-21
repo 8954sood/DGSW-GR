@@ -20,3 +20,6 @@ class DeleteUserRequest(BaseModel):
     id: int
 class UpdateUserRequest(UserSchema):
     pass
+class LoginUserRequest(BaseModel):
+    login_id: str
+    password: str

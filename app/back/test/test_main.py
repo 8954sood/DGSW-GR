@@ -65,6 +65,7 @@ async def index(user: UserBase, db: AsyncSession = Depends(get_db)):
 @app.get("/user")
 async def get_users(db: AsyncSession = Depends(get_db)):
     results = await db.execute(select(User))
+    
     users = results.scalars().all()
     return {"users": users}
 if __name__ == "__main__":

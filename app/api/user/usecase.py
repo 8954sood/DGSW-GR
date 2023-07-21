@@ -10,6 +10,7 @@ from sqlalchemy import String, select
 from api.models import UserSchema, UserTable
 from .schema import UpdateUserRequest
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from fastapi import HTTPException
 
 class CreateUser:
     def __init__(self, session: AsyncSession) -> None:
@@ -22,7 +23,10 @@ class CreateUser:
             session.add(_user)
             # s = await session.flush()
             await session.commit()
-            return
+
+            results = (await session.execute(select(UserTable).filter(UserTable.login_id == login_id and UserTable.password == password and UserTable == name))).scalars().first()
+
+            return results
 
 class ReadAllUser:
     def __init__(self, session: AsyncSession) -> None:
@@ -38,6 +42,15 @@ class ReadAllUser:
 
             # async for _user in UserTable.read_all(session, include_notes=True):
             #     yield UserSchema.model_validate(_user)
+class ReadByLoginUser:
+    def __init__(self, session: AsyncSession) -> None:
+        self.async_session = session
+    async def execute(self, login_id: str, password: str) -> dict: #AsyncIterator[]:
+        async with self.async_session() as session:
+            _user = (await session.execute(select(UserTable).filter(UserTable.login_id == login_id and UserTable.password == password))).scalars().first()
+            if not _user:
+                raise HTTPException(status_code=404, detail={"code": 404, "content": "not found user"})
+            return _user
 
 class DeleteUser:
     def __init__(self, session: AsyncSession) -> None:

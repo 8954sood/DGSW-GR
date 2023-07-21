@@ -1,5 +1,10 @@
 from pydantic import BaseModel, ConfigDict
 
+import os
+
+
+
+
 class UserSchema(BaseModel):
     id: int
     login_id: str
