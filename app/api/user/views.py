@@ -1,5 +1,5 @@
 #fastapi
-from fastapi import APIRouter, Depends, Path, Request
+from fastapi import APIRouter, Depends, Path, Request, HTTPException
 
 #DB
 from sqlalchemy import create_engine, Column, Integer, String, select
@@ -13,14 +13,18 @@ from .schema import (
     CreateUserResponse, 
     DeleteUserRequest, 
     UpdateUserRequest,
-    LoginUserRequest
+    LoginUserRequest,
+    RefreshTokenRequest,
+    CheckDuplication,
+    TokenRequest
 )
-from .usecase import ReadAllUser, CreateUser, DeleteUser, UpdateUser, ReadByLoginUser
+from .usecase import ReadAllUser, CreateUser, DeleteUser, UpdateUser, ReadByLoginUser, ReadByIdUser, ReadByLoginIdUser
 
 #Load Jwt
 # from async_fastapi_jwt_auth import AuthJWT
 # from async_fastapi_jwt_auth.exceptions import AuthJWTException
 from models import auth as jwt
+from models import JWTCheck
 
 #ErrorResponse
 from starlette.responses import JSONResponse
@@ -56,6 +60,17 @@ async def create(
     print(result.login_id)
     return {"result": "success"}
     ""
+@router.post("/check", tags=["user"])
+async def check(
+    request: Request,
+    data: CheckDuplication,
+    session: AsyncSession= Depends(get_session)
+):
+    usecase = ReadByLoginIdUser(session)
+    await usecase.execute(data.login_id)
+    return {"result": False}
+    ""
+
 @router.delete("/delete", tags=["user"])
 async def delete(
     request: Request,
@@ -85,36 +100,46 @@ async def login(
     result = await usecase.execute(data.login_id, data.password)
     refresh_token = await jwt.async_create_refresh_token(result)
     access_token = await jwt.async_create_access_token(result)
+
+    '''
+    프레쉬 토큰을 db에 저장하고, 그에따른 aceess token을 재발급 한다? = 
+    현재 리프레쉬 토큰은 id.refresh로 만들어지기에 refresh token을 디코드 -> id값만 다시 token화 기'''
     return {"refresh_token": refresh_token, "access_token": access_token}
     
     ""
-@router.post("/test", tags=["user"])
-async def tokenInvaild(
-    token: str
+@router.post("/token", tags=["user"])
+async def token(
+    request: Request,
+    data: RefreshTokenRequest,
+    session: AsyncSession= Depends(get_session)
 ):
+    result = await JWTCheck.refreshToken(jwt, data.refresh_token)
+    result = int(result.split(".")[0]) # int 값
+
+    usecase = ReadByIdUser(session)
+    user = await usecase.execute(result) # 한번더 찾는 이유: 검증을 위해서
     
-    result = await jwt.async_decode_token(token)# int 값 저장하면 int로 decode, str로 저장하면 str로 decode
+    access_token = await jwt.async_create_access_token(user)
+    return access_token
 
-    print(type(result))
-    return result
-# @AuthJWT.load_config
-# def get_config():
-#     return Settings()
-
-
-# @router.post("/refresh", tags=["user"])
-# async def refresh(
-#     request: Request,
-#     Authorize: AuthJWT = Depends()
+@router.post("/info", tags=["user"])
+async def info(
+    request: Request,
+    data: TokenRequest,
+    session: AsyncSession= Depends(get_session)
+):
+    result = await JWTCheck.accessToken(jwt, data.token)
+    usecase = ReadByIdUser(session)
+    user = await usecase.execute(result) # 한번더 찾는 이유: 검증을 위해서
+    return {"user": user}
+# @router.get("/info", tags=["user"])
+# # async def 
+# @router.post("/test", tags=["user"])
+# async def tokenInvaild(
+#     token: str
 # ):
-#     await Authorize.jwt_refresh_token_required()
-#     current_user = await Authorize.get_jwt_subject()
-#     new_access_token = await Authorize.create_access_token(subject=current_user)
-#     return {"access_token": new_access_token}
-#     ""
-# @router.get('/protected')
-# async def protected(Authorize: AuthJWT = Depends()):
-#     await Authorize.jwt_required()
+    
+#     result = await jwt.async_decode_token(token)# int 값 저장하면 int로 decode, str로 저장하면 str로 decode
 
-#     current_user = await Authorize.get_jwt_subject()
-#     return {"user": current_user}
+#     print(type(result))
+#     return result

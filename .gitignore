@@ -30,6 +30,9 @@ render.experimental.xml
 *.db
 *.sqlite3
 
+# config file
+*.env
+
 # Google Services (e.g. APIs or Firebase)
 google-services.json
 

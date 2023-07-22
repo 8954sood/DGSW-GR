@@ -21,13 +21,16 @@ class CreateUser:
             # return UserSchema.model_validate(_user)
             _user = UserTable(login_id=login_id, password=password, name=name, grade=grade, class_id=class_id, number=number)
             session.add(_user)
+            try:
             # s = await session.flush()
-            await session.commit()
-
+                await session.commit()
+            except:
+                raise HTTPException(404, detail="user that already exists")
             results = (await session.execute(select(UserTable).filter(UserTable.login_id == login_id and UserTable.password == password and UserTable == name))).scalars().first()
 
             return results
 
+    
 class ReadAllUser:
     def __init__(self, session: AsyncSession) -> None:
         self.async_session = session
@@ -49,8 +52,26 @@ class ReadByLoginUser:
         async with self.async_session() as session:
             _user = (await session.execute(select(UserTable).filter(UserTable.login_id == login_id and UserTable.password == password))).scalars().first()
             if not _user:
-                raise HTTPException(status_code=404, detail={"code": 404, "content": "not found user"})
+                raise HTTPException(status_code=404, detail="not found user")
             return _user
+class ReadByIdUser:
+    def __init__(self, session: AsyncSession) -> None:
+        self.async_session = session
+    async def execute(self, id: int) -> dict: #AsyncIterator[]:
+        async with self.async_session() as session:
+            _user = (await session.execute(select(UserTable).filter(UserTable.id == id))).scalars().first()
+            if not _user:
+                raise HTTPException(status_code=404, detail="not found user")
+            return _user
+class ReadByLoginIdUser:
+    def __init__(self, session: AsyncSession) -> None:
+        self.async_session = session
+    async def execute(self, login_id: int) -> dict: #AsyncIterator[]:
+        async with self.async_session() as session:
+            _user = (await session.execute(select(UserTable).filter(UserTable.login_id == login_id))).scalars().first()
+            if _user:
+                raise HTTPException(status_code=404, detail="that's duplication id")
+            return
 
 class DeleteUser:
     def __init__(self, session: AsyncSession) -> None:

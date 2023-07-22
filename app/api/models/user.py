@@ -10,7 +10,7 @@ from .base import Base
 class UserTable(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-    login_id: Mapped[str] = mapped_column(nullable=False)
+    login_id: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column( nullable=False)
     grade: Mapped[int] = mapped_column(nullable=False)

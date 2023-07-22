@@ -12,14 +12,24 @@ class CreateUserRequest(BaseModel):
 class CreateUserResponse(UserSchema):
     pass
 
+class CheckDuplication(BaseModel):
+    login_id: str
 
 class ReadAllUserResponse(BaseModel):
     users: List[UserSchema]
 
 class DeleteUserRequest(BaseModel):
     id: int
+
 class UpdateUserRequest(UserSchema):
     pass
+
 class LoginUserRequest(BaseModel):
     login_id: str
     password: str
+
+class TokenRequest(BaseModel):
+    token: str
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
