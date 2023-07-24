@@ -1,5 +1,3 @@
 fastapi
-async-fastapi-jwt-auth
-async-fastapi-jwt-auth[asymmetric]
 sqlalchemy
 python-dotenv

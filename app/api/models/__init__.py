@@ -1,5 +1,5 @@
 from .base import Base
-from .schema import UserSchema
+from .schema import UserSchema, TokenRequestSchema, LOLSchema
 from .jwt import auth
 from .check import JWTCheck
 

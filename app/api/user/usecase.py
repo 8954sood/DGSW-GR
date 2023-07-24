@@ -9,7 +9,7 @@ from db import AsyncSession
 from sqlalchemy import String, select
 from api.models import UserSchema, UserTable
 from .schema import UpdateUserRequest
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+# from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from fastapi import HTTPException
 
 class CreateUser:

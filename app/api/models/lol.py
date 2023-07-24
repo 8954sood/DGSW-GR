@@ -15,6 +15,7 @@ class LOLTable(Base):
     tier_str: Mapped[str] = mapped_column(nullable=False)
     tier_int: Mapped[int] = mapped_column( nullable=False)
     level: Mapped[int] = mapped_column(nullable=False)
-    profile_id: Mapped[str] = mapped_column(nullable=False)
-    ppu_id: Mapped[str] = mapped_column(nullable=False)
+    profile_id: Mapped[int] = mapped_column(nullable=False)
+    profile_icon: Mapped[str] = mapped_column(nullable=False)
+    puu_id: Mapped[str] = mapped_column(nullable=False)
 

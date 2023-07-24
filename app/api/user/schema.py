@@ -1,4 +1,4 @@
-from api.models.schema import UserSchema
+from api.models.schema import UserSchema, TokenRequestSchema as TokenRequest
 from pydantic import BaseModel
 from typing import List
 class CreateUserRequest(BaseModel):
@@ -27,9 +27,6 @@ class UpdateUserRequest(UserSchema):
 class LoginUserRequest(BaseModel):
     login_id: str
     password: str
-
-class TokenRequest(BaseModel):
-    token: str
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
