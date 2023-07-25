@@ -60,8 +60,10 @@ async def updateUser(
     ""
 @router.put("/edit", tags=["lol"])
 async def editUser(
-
+    request: Request,
+    session: AsyncSession= Depends(get_session)
 ):
+    
     ""
     
 @router.post("/create", tags=["lol"])
@@ -114,8 +116,10 @@ async def rankUser(
 @router.get("/info", tags=["lol"])
 async def infoUser(
     request: Request,
-    user: int,
+    nickname: str,
     session: AsyncSession= Depends(get_session)
 ):
-    
+    usecase = ReadByNicknameLOLANDUserTable(session)
+    result = await usecase.execute(nickname)
+    return result
     ""

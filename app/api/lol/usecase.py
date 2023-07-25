@@ -3,6 +3,8 @@ from sqlalchemy import select
 from models import LOLTable, LOLSchema, UserTable, UserSchema
 from typing import Tuple
 from fastapi import HTTPException
+from .schema import InfoUserResponse
+
 class CreateUser:
     def __init__(self, session: AsyncSession) -> None:
         self.async_session = session
@@ -38,20 +40,23 @@ class ReadByIdUser:
 class ReadByNicknameLOLANDUserTable:
     def __init__(self, session: AsyncSession) -> None:
         self.async_session = session
-    async def execute(self, nickname: str) -> Tuple[UserSchema, LOLSchema]:
+    async def execute(self, nickname: str) -> InfoUserResponse:
         async with self.async_session() as session:
             ""
-            _query = select(LOLTable).filter(LOLTable.nickname == nickname)
+            _query = select(LOLTable).filter(LOLTable.nickname == nickname  )
+            
             _lol = (await session.execute(_query)).scalars().first()
             if not _lol:
                 raise HTTPException(404, "not found User")
-            _lol= LOLSchema(**_lol.__dict__)
             _query = select(UserTable).filter(UserTable.id == _lol.user_id)
             _user = (await session.execute(_query)).scalars().first()
             if not _user:
                 raise HTTPException(404, "not found User")
-            _user = UserSchema(**_user.__dict__)
-            return _user, _lol
+            _user = _user.__dict__
+            del _user["_sa_instance_state"]
+            del _user["id"]
+            
+            return InfoUserResponse(**_user, **_lol.__dict__)
             
 class UpdateUser:
     def __init__(self, session: AsyncSession) -> None:
