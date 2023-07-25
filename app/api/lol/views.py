@@ -7,8 +7,10 @@ from .schema import (
     SearchRequest, 
     TokenRequest,
     CreateUserRequest,
+    EditUserRequest,
     UpdateUserRequest
 )
+from models import LOLSchema
 
 # Core
 from core.network.lol.main import LoLRequest
@@ -18,7 +20,7 @@ from models import JWTCheck, auth as jwt
 from db import get_session
 
 # usecase
-from .usecase import CreateUser, RankUserList
+from .usecase import CreateUser, RankUserList, ReadByIdUser, UpdateUser, ReadByNicknameLOLANDUserTable
 
 router = APIRouter(prefix="/lol")
 network = LoLRequest()
@@ -39,9 +41,22 @@ async def updateUser(
 ):
     """
     이미 등록된 유저의 롤 정보를 업데이트 하기 위한 리퀘스트입니다.
+    누구나 유저 정보 업데이트는 가능하기에 대상의 id(닉네임)을 넣으면 정보를 업데이트할 수 있습니다.
     """
-    
-    return await JWTCheck.accessToken(jwt, data.token)
+
+    #https://renew.deeplol.gg/match/matches 에 post 보내야함, referer 똑바로 안보내면 빠구먹음
+    usecase = ReadByIdUser(session)
+    # user_id = await JWTCheck.accessToken(jwt, data.token)
+    user = await usecase.execute(data.id)
+    await LoLRequest().updateSummoner(user.nickname, user.puu_id)
+    _user = await network.searchSummoner(user.nickname)
+    _user = LOLSchema(id=user.id, user_id=user.user_id ,**_user)
+    usecase = UpdateUser(session)
+    await usecase.execute(_user)
+
+    # await usecase.execute(data.id, _user["name"], _user["tier_str"], _user["tier_int"], _user["level"], _user["profile_id"], _user["profile_icon"], _user["puu_id"])
+
+    return {"result": True}
     ""
 @router.put("/edit", tags=["lol"])
 async def editUser(
@@ -63,7 +78,7 @@ async def createUser(
     id = await JWTCheck.accessToken(jwt, data.token)
     _user = await network.searchSummoner(data.name)
     
-    await usecase.execute(id, _user["name"], _user["tier_str"], _user["tier_int"], _user["level"], _user["profile_id"], _user["profile_icon"], _user["puu_id"])
+    await usecase.execute(id, _user["nickname"], _user["tier_str"], _user["tier_int"], _user["level"], _user["profile_id"], _user["profile_icon"], _user["puu_id"])
     return {"result": "success"}
     
 
@@ -90,7 +105,6 @@ async def rankUser(
         data = i.__dict__
         del data['_sa_instance_state']
         del data['user_id'] # 보안상 노출되면 안되는 것
-        del data['id']
         items.append(data)
     return items[::-1]
     

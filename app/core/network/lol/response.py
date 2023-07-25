@@ -20,7 +20,7 @@ def searchUserResponse(data: dict) -> dict:
     }
     result = {
         "puu_id": basic["puu_id"],
-        "name":basic["summoner_name"], 
+        "nickname":basic["summoner_name"], 
         "level": basic["level"], 
         "profile_id": basic["profile_id"],
         "profile_icon": f"https://deeplol-ddragon-cdn.deeplol.gg/cdn/{LOL_VERSION}/img/profileicon/{basic['profile_id']}.png",

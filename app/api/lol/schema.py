@@ -7,5 +7,8 @@ class SearchRequest(BaseModel):
 class CreateUserRequest(TokenRequest):
     name: str
 
-class UpdateUserRequest(TokenRequest):
+class EditUserRequest(TokenRequest):
     name: str
+
+class UpdateUserRequest(BaseModel):
+    id: int

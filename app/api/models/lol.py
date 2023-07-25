@@ -11,9 +11,9 @@ class LOLTable(Base):
     __tablename__ = "lol"
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     user_id: Mapped[int] = mapped_column(nullable=False, unique=True)
-    nickname: Mapped[str] = mapped_column(nullable=False)
+    nickname: Mapped[str] = mapped_column(nullable=False, unique=True)
     tier_str: Mapped[str] = mapped_column(nullable=False)
-    tier_int: Mapped[int] = mapped_column( nullable=False)
+    tier_int: Mapped[int] = mapped_column(nullable=False)
     level: Mapped[int] = mapped_column(nullable=False)
     profile_id: Mapped[int] = mapped_column(nullable=False)
     profile_icon: Mapped[str] = mapped_column(nullable=False)

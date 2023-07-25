@@ -95,7 +95,7 @@ class UpdateUser:
                 # _user.id = user.id
                 _user.class_id = user.class_id
                 _user.grade = user.grade
-                _user.nubmer = user.number
+                _user.number = user.number
                 _user.password = user.password
                 _user.login_id = user.login_id
                 session.add(_user)
