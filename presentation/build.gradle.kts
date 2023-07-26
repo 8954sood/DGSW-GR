@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.hu.dgswgr"
+    namespace = "com.hu.presentation"
     compileSdk = 34
 
     defaultConfig {
