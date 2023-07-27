@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "dgswgr"
-include ':app'
+include(":presentation")
