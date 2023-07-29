@@ -7,7 +7,7 @@ object ProjectProperties {
     const val APPLIACATION_ID = "com.hu.dgswgr"
     const val COMPLIDE_SDK_VERSION = 33
 
-    const val MINSDK_VERSION = 28
+    const val MINSDK_VERSION = 26
     const val TAGETSDK_VERSION = 33
     const val TEST_RUNER = "androidx.test.runner.AndroidJUnitRunner"
     const val USE_SUPPORT_LIBRARY = true
@@ -21,6 +21,8 @@ object ProjectProperties {
 
     const val BUILD_FEATURE_COMPOSE = true
 
+    const val ANDROID_VERSION = "7.4.0"
+    const val JETBRAINS_KOTLIN = "1.7.10"
 
 
     const val PATH_PRESENTATION = ":presentation"
