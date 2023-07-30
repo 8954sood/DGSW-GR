@@ -33,3 +33,10 @@ object Compose {
     const val NAVIGATION_COMPOSE = "androidx.navigation:navigation-compose:${Versions.COMPOSE_NAVIGATION}"
     const val MATERIAL3 = "androidx.compose.material3:material3:${Versions.MATERIAL3}"
 }
+
+object OrbitMVI {
+    const val ORBIT_CORE = "org.orbit-mvi:orbit-core:${Versions.ORBIT}"
+    const val ORBIT_VIEWMODEL = "org.orbit-mvi:orbit-viewmodel:${Versions.ORBIT}"
+    const val ORBIT_COMPOSE = "org.orbit-mvi:orbit-compose:${Versions.ORBIT}"
+    const val ORBIT_TEST = "org.orbit-mvi:orbit-test:${Versions.ORBIT}"
+}

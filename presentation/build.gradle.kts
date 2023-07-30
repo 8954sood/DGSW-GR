@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id(Plugins.androidApplication)
+    id(Plugins.daggerPlugin)
     id(Plugins.kotlinAndroid)
     id(Plugins.kotlinKapt)
 }
@@ -71,6 +72,13 @@ dependencies {
     // hilt
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
+
+    // orbit mvi
+    implementation(OrbitMVI.ORBIT_CORE)
+    implementation(OrbitMVI.ORBIT_COMPOSE)
+    implementation(OrbitMVI.ORBIT_VIEWMODEL)
+    testImplementation(OrbitMVI.ORBIT_TEST)
+
 
 //    implementation("androidx.core:core-ktx:${Versions.CORE_KTX}")
 //    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

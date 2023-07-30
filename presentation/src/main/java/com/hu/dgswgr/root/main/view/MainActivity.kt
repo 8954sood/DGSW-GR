@@ -33,13 +33,13 @@ import com.hu.dgswgr.root.navigation.NavigationGraph
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            DgswgrTheme {
+            MaterialTheme() {
                 Box {
                     NavigationGraph(navController = navController)
                 }

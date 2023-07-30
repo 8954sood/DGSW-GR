@@ -1,5 +1,6 @@
 package com.hu.dgswgr.feature.test.test1.screen
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
 import androidx.compose.material.Surface
@@ -14,13 +15,8 @@ import com.hu.dgswgr.ui.theme.DgswgrTheme
 fun Test1Screen(
     navController: NavController
 ) {
-    DgswgrTheme() {
-        Surface() {
-            Modifier.fillMaxWidth()
-        }
-        Text(text = "test1")
-        Button(onClick = { navController.navigate(NavGroup.Test.Test2) }) {
-            Text(text = "넘어가기")
-        }
+    Text(text = "test1")
+    Button(onClick = { navController.navigate(NavGroup.Test.Test2) }) {
+        Text(text = "넘어가기")
     }
 }

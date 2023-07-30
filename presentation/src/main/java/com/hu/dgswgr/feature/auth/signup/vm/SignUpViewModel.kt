@@ -1,0 +1,65 @@
+package com.hu.dgswgr.feature.auth.signup.vm
+
+import androidx.lifecycle.ViewModel
+import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
+import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
+import javax.inject.Inject
+
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+): ContainerHost<SignUpState, SignUpSideEffect>, ViewModel() {
+
+    override val container = container<SignUpState, SignUpSideEffect>(SignUpState())
+
+    fun signUp(
+        loginId: String,
+        password: String,
+        name: String,
+        grade: Int,
+        classNumber: Int,
+        studentNumber: Int
+    ) = intent {
+        reduce {
+            state.copy(loading = true)
+        }
+    }
+
+    fun inputLoginId(text: String) = intent {
+        reduce {
+            state.copy(loginId = text)
+        }
+    }
+
+    fun inputPassword(text: String) = intent {
+        reduce {
+            state.copy(password = text)
+        }
+    }
+    fun inputName(text: String) = intent {
+        reduce {
+            state.copy(name = text)
+        }
+    }
+    fun inputGrade(grade: Int) = intent {
+        reduce {
+            state.copy(grade = grade)
+        }
+    }
+    fun inputClassNumber(number: Int) = intent {
+        reduce {
+            state.copy(classNumber = number)
+        }
+    }
+    fun inputStudentNumber(number: Int) = intent {
+        reduce {
+            state.copy(studentNumber = number)
+        }
+    }
+
+
+}
