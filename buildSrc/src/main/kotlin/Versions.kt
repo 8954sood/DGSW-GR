@@ -10,7 +10,7 @@ object Versions {
     const val JUNIT = "4.13.2"
     const val ANDROID_JUNIT = "1.1.4"
 
-    const val COMPOSE_VERSION = "1.3.1"
+    const val COMPOSE_VERSION = "1.3.0"
     const val ACTIVITY_COMPOSE = "1.6.1"
     const val MATERIAL_COMPOSE = "1.3.1"
     const val COMPOSE_HILT = "1.0.0"

@@ -7,6 +7,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hu.dgswgr.feature.auth.signup.vm.SignUpViewModel
@@ -31,4 +32,11 @@ fun SignUpScreen(
     }
 
 
+}
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun PreviewSignUp(
+) {
+    Text(text = "ㅇ")
 }

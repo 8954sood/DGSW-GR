@@ -64,6 +64,9 @@ dependencies {
     implementation(Compose.COMPOSE_HILT)
     implementation(Compose.NAVIGATION_COMPOSE)
     implementation(Compose.MATERIAL3)
+    androidTestImplementation(Compose.UI_TEST_JUNIT4)
+    debugImplementation(Compose.UI_TOOLING)
+    debugImplementation(Compose.UI_TEST_MANIFEST)
 
     // coroutine
     implementation(Kotlin.COROUTINES_ANDROID)

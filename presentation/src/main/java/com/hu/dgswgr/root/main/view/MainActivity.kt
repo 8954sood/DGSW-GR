@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            MaterialTheme() {
+            DgswgrTheme() {
                 Box {
                     NavigationGraph(navController = navController)
                 }
@@ -51,6 +51,7 @@ class MainActivity : ComponentActivity() {
         const val TAG = "LOG"
     }
 }
+
 
 @Composable
 fun testCode() {
@@ -97,7 +98,7 @@ fun Greeting(name: String, clickCnt: Int, onClicked: () -> Unit) {
 
 
 }
-
+//
 //@Preview(showBackground = true)
 //@Composable
 //fun GreetingPreview() {
@@ -109,4 +110,9 @@ fun Greeting(name: String, clickCnt: Int, onClicked: () -> Unit) {
 //            Greeting("Android")
 //        }
 //    }
+//}
+//@Preview(showBackground = true)
+//@Composable
+//fun previewUI() {
+//
 //}
