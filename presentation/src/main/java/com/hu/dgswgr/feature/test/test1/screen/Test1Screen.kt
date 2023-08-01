@@ -1,6 +1,7 @@
 package com.hu.dgswgr.feature.test.test1.screen
 
 import android.util.Log
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,6 +25,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,17 +47,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.hu.dgswgr.R
 import com.hu.dgswgr.root.navigation.NavGroup
+import com.hu.dgswgr.ui.components.loading.LoadInFullScreen
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import com.hu.dgswgr.ui.theme.Label1
+import kotlinx.coroutines.delay
 
 @Composable
 fun Test1Screen(
     navController: NavController
 ) {
+//    LoadInFullScreen()
     Column() {
         Text(text = "test1")
         Button(onClick = { navController.navigate(NavGroup.Test.Test2) }) {
-            Text(text = "넘어가기")
+            Text(text = "넘어가기", )
         }
         DgswButton(onClick = { (Log.d(",", "")) }, content = {
             Text(text = "엄")
@@ -97,5 +104,4 @@ fun DgswButton(
         }
     }
 }
-
 

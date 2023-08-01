@@ -31,7 +31,7 @@ import com.hu.dgswgr.ui.theme.noToSansKR
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun dgswAppBar(
+fun DgswAppBar(
     text: String = "테스트",
     onClick: () -> Unit = { Log.d("앱바 클릭", "테스트") }
 ) {

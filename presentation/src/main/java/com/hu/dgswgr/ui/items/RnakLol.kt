@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.hu.dgswgr.R
 import com.hu.dgswgr.ui.theme.Body3
 import com.hu.dgswgr.ui.theme.DgswgrTheme
+import com.hu.dgswgr.ui.theme.DgswgrTypography
 import com.hu.dgswgr.ui.theme.Title2
 
 
@@ -45,9 +47,7 @@ fun rankItemsLol(
     level: Int = 138,
     studentInfo: String = "1113박박박"
 ) {
-    Column()
-    {
-
+    Column {
         Row(modifier = Modifier.padding(16.dp, 17.dp)) {
             Image(
                 painter = painterResource(id = profile_icon),
@@ -94,10 +94,15 @@ fun rankItemsLol(
             }
 
         }
-        Box(modifier = Modifier
-            .fillMaxWidth()
-            .background(DgswgrTheme.color.Black20)
-            .height((0.5).dp))
+//        Box(modifier = Modifier
+//            .fillMaxWidth()
+//            .background(DgswgrTheme.color.Black20)
+//            .height((0.5).dp))
+        Divider(
+            color = DgswgrTheme.color.Black20,
+            modifier = Modifier
+                .fillMaxWidth()
+            )
     }
 }
 

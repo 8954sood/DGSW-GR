@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -18,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 
 import androidx.compose.runtime.remember
@@ -37,14 +42,26 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             val navController = rememberNavController()
+//            val test = remember {
+//                mutableStateOf(0)
+//            }
+//            val textColor by animateColorAsState(if (test.value > 0) Color.Black else Color.White, animationSpec = tween(durationMillis = 700, easing = LinearEasing), finishedListener = { test.value += 1 })
+//            val textColor2 by animateColorAsState(if (test.value > 1) Color.Black else Color.White, animationSpec = tween(durationMillis = 700, easing = LinearEasing))
+            //            LaunchedEffect(Unit) {
+//                test.value += 1
+//            }
             DgswgrTheme() {
+
                 Box {
+
                     NavigationGraph(navController = navController)
                 }
                 
             }
+
         }
     }
     companion object {
@@ -71,9 +88,9 @@ fun testCode() {
         }
     }
 }
-
 @Composable
 fun Greeting(name: String, clickCnt: Int, onClicked: () -> Unit) {
+
     Surface(
         modifier = Modifier
             .padding(16.dp)
@@ -83,7 +100,8 @@ fun Greeting(name: String, clickCnt: Int, onClicked: () -> Unit) {
     ) {
         Column() {
             Text(
-                text = "Hello $name!"
+                text = "Hello $name!",
+//                color = textColor
             )
             Text(
                 text = "$clickCnt"

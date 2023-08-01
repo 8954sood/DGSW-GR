@@ -76,6 +76,9 @@ dependencies {
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
 
+    // lottie
+    implementation(Libraries.LOTTIE)
+
     // orbit mvi
     implementation(OrbitMVI.ORBIT_CORE)
     implementation(OrbitMVI.ORBIT_COMPOSE)
