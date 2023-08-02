@@ -1,6 +1,13 @@
 package com.hu.dgswgr.feature.auth.signup.screen
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
@@ -13,8 +20,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
 import androidx.compose.material.Text
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -27,11 +37,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
 import com.hu.dgswgr.feature.auth.signup.vm.SignUpViewModel
 import com.hu.dgswgr.ui.components.appbar.DgswAppBar
+import com.hu.dgswgr.ui.components.button.DgswgrDefaultButton
+import com.hu.dgswgr.ui.components.loading.LoadInFullScreen
 import com.hu.dgswgr.ui.components.textfiled.DgswgrLongTextField
+import com.hu.dgswgr.ui.theme.Body3
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import com.hu.dgswgr.ui.theme.Title1
+import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
@@ -41,26 +56,51 @@ fun SignUpScreen(
 ) {
     val signUpSate = signUpViewModel.collectAsState().value
 
-
-    Column() {
-        Text(text = "test2")
-
-
+//    Column() {
+//        Text(text = "test2")
+//
+//
+//    }
+//    Text(text = "test2")
+//    Button(onClick = { navController.popBackStack() }) {
+//        Text(text = "돌아가기")
+//    }
+    LaunchedEffect(Unit) {
+        signUpViewModel.testInputLoading(true)
+        delay(3000)
+        signUpViewModel.testInputLoading(false)
     }
-    Text(text = "test2")
-    Button(onClick = { navController.popBackStack() }) {
-        Text(text = "돌아가기")
+    AnimatedVisibility(
+        visible  = signUpSate.loading,
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        LoadInFullScreen()
     }
-
+    AnimatedVisibility(
+        visible = signUpSate.loading.not(),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        PreviewScreen1(signUpViewModel, signUpSate)
+    }
 
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
-@Preview(showSystemUi = true)
+//@Preview(showSystemUi = true)
 @Composable
 fun PreviewScreen1(
+    singUpViewModel: SignUpViewModel,
+    signUpState: SignUpState
 ) {
     val focus = LocalFocusManager.current
+    val loginId = signUpState.loginId
+    val test = remember { mutableStateOf(0) }
+    val titleColor by animateColorAsState(if (test.value > 0) DgswgrTheme.color.Black else DgswgrTheme.color.White, animationSpec = tween(durationMillis = 700, easing = LinearEasing), finishedListener = { test.value += 1 })
+    val titleColor2 by animateColorAsState(if (test.value > 1) DgswgrTheme.color.Black else DgswgrTheme.color.White, animationSpec = tween(durationMillis = 700, easing = LinearEasing))
+    val btnColor by animateColorAsState(if (loginId.isNotEmpty() && loginId.length > 5) DgswgrTheme.color.Black else DgswgrTheme.color.Gray, animationSpec = tween(durationMillis = 500, easing = LinearEasing))
+
     Column(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()
@@ -72,7 +112,6 @@ fun PreviewScreen1(
         }
     )
     {
-        var value by remember { mutableStateOf("") }
         DgswAppBar(
             text = "회원가입",
             onClick = { Log.d("dd ", "")}
@@ -80,21 +119,47 @@ fun PreviewScreen1(
         Row(modifier = Modifier
             .padding(16.dp, 0.dp)) {
 //            Spacer(modifier = Modifier.width(16.dp))
-            Column() {
+            Column {
                 Spacer(modifier = Modifier.height(32.dp))
-                Title1(text = "여러분의 게임랭크를")
+                Title1(
+                    text = "여러분의 게임랭크를",
+                    textColor = titleColor
+                )
                 Spacer(modifier = Modifier.height(2.dp))
-                Title1(text = "자랑해볼까요?")
+                Title1(
+                    text = "자랑해볼까요?",
+                    textColor = titleColor2
+                )
+                Spacer(modifier = Modifier.height(106.dp))
+                Body3(
+                    text = "먼저 로그인이 필요해요 :)",
+                    textColor = DgswgrTheme.color.Black40
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 DgswgrLongTextField(
-                    value =value,
+                    value = loginId,
                     decorationBox = Modifier
                         .fillMaxWidth()
                         .background(DgswgrTheme.color.Black40)
-                        .height((0.5).dp)
-                ) {
-                    value = it
-                }
+                        .height((0.5).dp),
+                    onValueChange = {
+                        singUpViewModel.inputLoginId(it)
+                    }
+                )
+                Spacer(modifier = Modifier.height(43.dp))
+                DgswgrDefaultButton(
+                    text = "게속하기",
+                    enabled = (loginId.isNotEmpty() && loginId.length > 5),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = btnColor,
+                        disabledContainerColor = btnColor
+                    ),
+                    onClick = {  }
+                )
             }
+        }
+        LaunchedEffect(Unit) {
+            test.value += 1
         }
 
     }

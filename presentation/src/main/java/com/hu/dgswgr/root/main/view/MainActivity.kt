@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.hu.dgswgr.root.navigation.NavigationGraph
 import com.hu.dgswgr.ui.theme.DgswgrTheme
+import com.hu.dgswgr.ui.theme.Title1
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
             DgswgrTheme() {
 
                 Box {
-
+//                    Title1(text = "야발")
                     NavigationGraph(navController = navController)
                 }
                 

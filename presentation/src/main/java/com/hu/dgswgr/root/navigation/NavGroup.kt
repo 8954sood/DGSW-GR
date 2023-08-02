@@ -7,6 +7,6 @@ sealed class NavGroup(group: String) {
     }
 
     object Auth: NavGroup("auth") {
-        const val SignUp = "signup"
+        const val SIGNUP = "signup"
     }
 }

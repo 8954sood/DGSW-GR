@@ -88,6 +88,24 @@ object DgswgrTypography{
 }
 
 @Composable
+fun Body1(
+    modifier: Modifier = Modifier.padding(vertical = 0.dp),
+    text: String,
+    textColor: Color = DgswgrTheme.color.Black60
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = DgswgrTypography.body1.copy(
+            platformStyle = PlatformTextStyle(
+                includeFontPadding = false
+            )
+        ),
+        color = textColor,
+    )
+}
+
+@Composable
 fun Body3(
     modifier: Modifier = Modifier.padding(vertical = 0.dp),
     text: String,
