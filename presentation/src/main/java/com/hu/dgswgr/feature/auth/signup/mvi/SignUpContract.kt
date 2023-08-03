@@ -8,6 +8,7 @@ data class SignUpState(
     val classNumber: Int = 0,
     val studentNumber: Int = 0,
 
+    val page: Int = 0,
     val loading: Boolean = false
 
 )

@@ -60,6 +60,11 @@ class SignUpViewModel @Inject constructor(
             state.copy(studentNumber = number)
         }
     }
+    fun setPage(page: Int) = intent {
+        reduce {
+            state.copy(page = page)
+        }
+    }
     fun testInputLoading(loading: Boolean) = intent {
         reduce {
             state.copy(loading = loading)
