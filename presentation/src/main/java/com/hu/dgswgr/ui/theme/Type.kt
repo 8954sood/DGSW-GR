@@ -40,6 +40,9 @@ object DgswgrTypography{
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
         lineHeight = 20.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
     )
 
     @Stable
@@ -48,6 +51,9 @@ object DgswgrTypography{
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 16.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
 
     )
 
@@ -57,6 +63,9 @@ object DgswgrTypography{
         fontWeight = FontWeight.Medium,
         fontSize = 22.sp,
         lineHeight = 26.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
     )
 
     @Stable
@@ -65,6 +74,9 @@ object DgswgrTypography{
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
         lineHeight = 24.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
     )
 
     @Stable
@@ -73,6 +85,9 @@ object DgswgrTypography{
         fontWeight = FontWeight.Medium,
         fontSize = 18.sp,
         lineHeight = 22.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
     )
 
 //    @Stable
@@ -82,7 +97,10 @@ object DgswgrTypography{
         fontFamily = noToSansKR,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
-        lineHeight = 16.sp
+        lineHeight = 16.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
     )
 
 }
@@ -96,11 +114,7 @@ fun Body1(
     Text(
         modifier = modifier,
         text = text,
-        style = DgswgrTypography.body1.copy(
-            platformStyle = PlatformTextStyle(
-                includeFontPadding = false
-            )
-        ),
+        style = DgswgrTypography.body1,
         color = textColor,
     )
 }
@@ -114,11 +128,7 @@ fun Body3(
     Text(
         modifier = modifier,
         text = text,
-        style = DgswgrTypography.body3.copy(
-            platformStyle = PlatformTextStyle(
-                includeFontPadding = false
-            )
-        ),
+        style = DgswgrTypography.body3,
         color = textColor,
     )
 }
@@ -132,11 +142,7 @@ fun Title1(
     Text(
         modifier = modifier,
         text = text,
-        style = DgswgrTypography.title1.copy(
-            platformStyle = PlatformTextStyle(
-                includeFontPadding = false
-            )
-        ),
+        style = DgswgrTypography.title1,
         color = textColor,
     )
 }
@@ -150,11 +156,7 @@ fun Title2(
     Text(
         modifier = modifier,
         text = text,
-        style = DgswgrTypography.title2.copy(
-            platformStyle = PlatformTextStyle(
-                includeFontPadding = false
-            )
-        ),
+        style = DgswgrTypography.title2,
         color = textColor,
     )
 }
@@ -168,11 +170,7 @@ fun Title3(
     Text(
         modifier = modifier,
         text = text,
-        style = DgswgrTypography.title3.copy(
-            platformStyle = PlatformTextStyle(
-                includeFontPadding = false
-            )
-        ),
+        style = DgswgrTypography.title3,
         color = textColor,
     )
 }
@@ -193,11 +191,7 @@ fun Label1(
     Text(
         modifier = modifier,
         text = text,
-        style = DgswgrTypography.label1.copy(
-            platformStyle = PlatformTextStyle(
-                includeFontPadding = false
-            )
-        ),
+        style = DgswgrTypography.label1,
         color = textColor,
 //        textAlign = textAlign,
         textDecoration = textDecoration,

@@ -45,17 +45,17 @@ class SignUpViewModel @Inject constructor(
             state.copy(name = text)
         }
     }
-    fun inputGrade(grade: Int) = intent {
+    fun inputGrade(grade: String) = intent {
         reduce {
             state.copy(grade = grade)
         }
     }
-    fun inputClassNumber(number: Int) = intent {
+    fun inputClassNumber(number: String) = intent {
         reduce {
             state.copy(classNumber = number)
         }
     }
-    fun inputStudentNumber(number: Int) = intent {
+    fun inputStudentNumber(number: String) = intent {
         reduce {
             state.copy(studentNumber = number)
         }

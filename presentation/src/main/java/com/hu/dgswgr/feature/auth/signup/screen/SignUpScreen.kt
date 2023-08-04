@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -39,6 +41,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
@@ -48,9 +51,12 @@ import com.hu.dgswgr.ui.components.appbar.DgswAppBar
 import com.hu.dgswgr.ui.components.button.DgswgrDefaultButton
 import com.hu.dgswgr.ui.components.loading.LoadInFullScreen
 import com.hu.dgswgr.ui.components.textfiled.DgswgrLongTextField
+import com.hu.dgswgr.ui.components.textfiled.DgswgrNumberField
+import com.hu.dgswgr.ui.theme.Body1
 import com.hu.dgswgr.ui.theme.Body3
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import com.hu.dgswgr.ui.theme.Title1
+import com.hu.dgswgr.ui.theme.Title3
 import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -70,15 +76,12 @@ fun SignUpScreen(
 //    Button(onClick = { navController.popBackStack() }) {
 //        Text(text = "돌아가기")
 //    }
-//    TODO(State의 숫자에 따라 화면 전환, ㅇㅇ)
-//    TODO( visible 조건은 page == 0 && loading.not())
-//    TODO( visibleCheck 를 사용해서 체크하자 위에거)
-//    TODO(공백 문자는 받지 못하게 검열하자)
-    LaunchedEffect(Unit) {
-        signUpViewModel.testInputLoading(true)
-        delay(3000)
-        signUpViewModel.testInputLoading(false)
-    }
+//    TODO(지금 학번 입략칸이 작아서 사용자 경험에 불편함)
+//    LaunchedEffect(Unit) {
+//        signUpViewModel.testInputLoading(true)
+//        delay(3000)
+//        signUpViewModel.testInputLoading(false)
+//    }
     AnimatedVisibility(
         visible  = signUpSate.loading,
         enter = fadeIn(),
@@ -100,6 +103,14 @@ fun SignUpScreen(
     ) {
 //        PreviewScreen1(signUpViewModel, signUpSate)
         SignUpScreen2(signUpViewModel, signUpSate)
+    }
+    AnimatedVisibility(
+        visible = visibleCheck(2, signUpSate.page, signUpSate.loading),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+//        PreviewScreen1(signUpViewModel, signUpSate)
+        SignUpScreen3(signUpViewModel, signUpSate)
     }
 
 }
@@ -167,7 +178,7 @@ private fun SignUpScreen1(
                 )
                 Spacer(modifier = Modifier.height(43.dp))
                 DgswgrDefaultButton(
-                    text = "게속하기",
+                    text = "계속하기",
                     enabled = (loginId.isNotEmpty() && loginId.length > 5),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = btnColor,
@@ -272,8 +283,119 @@ private fun SignUpScreen2(
                 }
                 Spacer(modifier = Modifier.height(7.dp))
                 DgswgrDefaultButton(
-                    text = "게속하기",
+                    text = "계속하기",
                     enabled = (password == retryPassword && password.length >= 8),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = btnColor,
+                        disabledContainerColor = btnColor
+                    ),
+                    onClick = { singUpViewModel.setPage(signUpState.page + 1) }
+                )
+            }
+        }
+
+    }
+}
+
+//@Preview(showBackground = true)
+@Composable
+private fun SignUpScreen3(
+    singUpViewModel: SignUpViewModel,
+    signUpState: SignUpState
+) {
+    val focus = LocalFocusManager.current
+    val grade = signUpState.grade //by remember { mutableStateOf("") }
+    val classNumber = signUpState.classNumber //by remember { mutableStateOf("") }
+    val studentNumber = signUpState.studentNumber //by remember { mutableStateOf("") }
+    val name = signUpState.name //by remember { mutableStateOf("") }
+
+    val btnColor by animateColorAsState(if (grade.isNotEmpty() && classNumber.isNotEmpty() && studentNumber.isNotEmpty() && name.isNotEmpty()) DgswgrTheme.color.Black else DgswgrTheme.color.Gray, animationSpec = tween(durationMillis = 500, easing = LinearEasing))
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+//        .verticalScroll(scrollState)
+        .pointerInput(Unit) {
+            detectTapGestures(onTap = {
+                focus.clearFocus()
+
+            })
+        }
+    )
+    {
+        DgswAppBar(
+            text = "회원가입",
+            onClick = { Log.d("dd ", "") }
+        )
+        Row(
+            modifier = Modifier
+                .padding(16.dp, 0.dp)
+        ) {
+//            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Spacer(modifier = Modifier.height(32.dp))
+                Title1(
+                    text = "학번 입력"
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                Row {
+                    DgswgrNumberField(
+                        value = grade,
+                        onValueChange = {
+                            if (it.isDigitsOnly().not() || it.length > 1) { return@DgswgrNumberField }
+                            singUpViewModel.inputGrade(it)
+                        }
+                    )
+                    Title3(
+                        text = "학년",
+                        textColor = DgswgrTheme.color.Black80,
+                        modifier = Modifier.absoluteOffset(y=0.dp)
+                    )
+                    Spacer(modifier = Modifier.width(11.dp))
+                    DgswgrNumberField(
+                        value = classNumber,
+                        onValueChange = {
+                            if (it.isDigitsOnly().not() || it.length > 1) { return@DgswgrNumberField }
+                            singUpViewModel.inputClassNumber(it)
+                        }
+                    )
+                    Title3(
+                        text = "반",
+                        textColor = DgswgrTheme.color.Black80,
+                        modifier = Modifier.absoluteOffset(y=0.dp)
+                    )
+                    Spacer(modifier = Modifier.width(11.dp))
+                    DgswgrNumberField(
+                        value = studentNumber,
+                        maxLength = 2,
+                        onValueChange = {
+                            if (it.isDigitsOnly().not() || it.length > 2) { return@DgswgrNumberField }
+                            singUpViewModel.inputStudentNumber(it)
+                        }
+                    )
+                    Title3(
+                        text = "번",
+                        textColor = DgswgrTheme.color.Black80,
+                        modifier = Modifier.absoluteOffset(y=0.dp)
+                    )
+
+                }
+                Spacer(modifier = Modifier.height(45.dp))
+                Title1(
+                    text = "이름 입력"
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                DgswgrLongTextField(
+                    value = name,
+                    placeholder = "다시 한번 입력해주세요",
+                    onValueChange = {
+                        if (it.contains(" ")) { return@DgswgrLongTextField }
+                        singUpViewModel.inputName(it)
+                    }
+                )
+                Spacer(modifier = Modifier.height(75.dp))
+                DgswgrDefaultButton(
+                    text = "회원가입 완료",
+                    enabled = (grade.isNotEmpty() && classNumber.isNotEmpty() && studentNumber.isNotEmpty() && name.isNotEmpty()),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = btnColor,
                         disabledContainerColor = btnColor
@@ -282,10 +404,8 @@ private fun SignUpScreen2(
                 )
             }
         }
-
     }
 }
-
 
 private fun visibleCheck(page: Int, nowPage: Int, loading: Boolean): Boolean {
     return (page == nowPage && loading.not())

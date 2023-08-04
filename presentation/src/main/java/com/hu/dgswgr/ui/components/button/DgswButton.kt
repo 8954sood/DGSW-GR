@@ -3,6 +3,7 @@ package com.hu.dgswgr.ui.components.button
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.CornerBasedShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme.colors
@@ -48,7 +49,7 @@ private fun DgswgrButton(
 fun DgswgrDefaultButton(
     text: String,
     textColor: Color = DgswgrTheme.color.White,
-    modifier: Modifier = Modifier.fillMaxWidth(),
+    modifier: Modifier = Modifier.fillMaxWidth().height(50.dp),
     colors: ButtonColors = ButtonDefaults.buttonColors(containerColor = DgswgrTheme.color.Black, disabledContainerColor = DgswgrTheme.color.Gray),
     enabled: Boolean = true,
     onClick: () -> Unit

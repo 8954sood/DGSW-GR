@@ -4,9 +4,9 @@ data class SignUpState(
     val loginId: String = "",
     val password: String = "",
     val name: String = "",
-    val grade: Int = 0,
-    val classNumber: Int = 0,
-    val studentNumber: Int = 0,
+    val grade: String = "",
+    val classNumber: String = "",
+    val studentNumber: String = "",
 
     val page: Int = 0,
     val loading: Boolean = false
