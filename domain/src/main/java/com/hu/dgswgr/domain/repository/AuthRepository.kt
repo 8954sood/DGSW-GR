@@ -1,4 +1,4 @@
-package com.hu.domain.repository
+package com.hu.dgswgr.domain.repository
 
 interface AuthRepository {
 

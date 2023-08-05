@@ -1,4 +1,4 @@
-package com.hu.data.datasource.auth
+package com.hu.dgswgr.data.datasource.auth
 
 interface AuthRemoteDataSource {
 

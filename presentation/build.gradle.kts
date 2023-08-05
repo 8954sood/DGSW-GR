@@ -5,6 +5,8 @@ plugins {
     id(Plugins.daggerPlugin)
     id(Plugins.kotlinAndroid)
     id(Plugins.kotlinKapt)
+    id(Plugins.kotlinParcelize)
+    id(Plugins.kt_lint) version Versions.KT_LINT
 }
 
 android {
@@ -93,7 +95,7 @@ dependencies {
 
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
-    implementation(project(ProjectProperties.PATH_DATA))
+//    implementation(project(ProjectProperties.PATH_DATA))
 
 //    implementation("androidx.core:core-ktx:${Versions.CORE_KTX}")
 //    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

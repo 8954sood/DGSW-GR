@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.domain.exception
+package com.hu.dgswgr.domain.exception
 
 class BadRequestException(
     override val message: String?,

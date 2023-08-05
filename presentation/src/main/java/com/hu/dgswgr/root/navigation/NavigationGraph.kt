@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.hu.dgswgr.feature.auth.signup.screen.SignUpScreen
-import com.hu.dgswgr.feature.test.test2.screen.Test2Screen
 
 @Composable
 fun NavigationGraph(

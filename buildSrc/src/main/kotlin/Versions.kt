@@ -7,7 +7,7 @@ object Versions {
     const val LIFECYCLE_KTX = "2.5.1"
     const val ROOM = "2.4.3"
 
-    const val HILT = "2.44"
+    const val HILT = "2.44.2"
     const val JUNIT = "4.13.2"
     const val MOCKITO = "4.2.0"
     const val ANDROID_JUNIT = "1.1.4"
@@ -20,6 +20,8 @@ object Versions {
     const val COMPOSE_NAVIGATION = "2.5.3"
     const val MATERIAL3 = "1.0.1"
     const val MATERIAL = "1.5.0"
+
+    const val KT_LINT = "10.2.0"
 
 
     const val RETROFIT = "2.9.0"

@@ -1,8 +1,8 @@
-package com.hu.data.repository
+package com.hu.dgswgr.data.repository
 
-import com.hu.data.BaseRepository
-import com.hu.data.datasource.auth.AuthRemoteDataSource
-import com.hu.domain.repository.AuthRepository
+import com.hu.dgswgr.data.BaseRepository
+import com.hu.dgswgr.data.datasource.auth.AuthRemoteDataSource
+import com.hu.dgswgr.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(

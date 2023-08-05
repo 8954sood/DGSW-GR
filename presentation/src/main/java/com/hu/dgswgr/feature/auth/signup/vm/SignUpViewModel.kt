@@ -3,7 +3,7 @@ package com.hu.dgswgr.feature.auth.signup.vm
 import androidx.lifecycle.ViewModel
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
-import com.hu.domain.usecase.auth.SignUpUseCase
+import com.hu.dgswgr.domain.usecase.auth.SignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent

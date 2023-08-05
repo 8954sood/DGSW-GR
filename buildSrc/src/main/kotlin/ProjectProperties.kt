@@ -4,8 +4,8 @@ object ProjectProperties {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0.0"
 
-    const val NAME_SPACE_DOMAIN = "com.hu.domain"
-    const val NAME_SPACE_DATA = "com.hu.data"
+    const val NAME_SPACE_DOMAIN = "com.hu.dgswgr.domain"
+    const val NAME_SPACE_DATA = "com.hu.dgswgr.data"
     const val NAME_SPACE_DI = "com.hu.dgswgr.di"
     const val NAME_SPACE_REMOTE = "com.hu.dgswgr.remote"
 

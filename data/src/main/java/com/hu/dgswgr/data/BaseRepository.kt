@@ -1,4 +1,4 @@
-package com.hu.data
+package com.hu.dgswgr.data
 
 interface BaseRepository<REMOTE> {
     val remote: REMOTE

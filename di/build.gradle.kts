@@ -1,10 +1,11 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
 plugins {
     id(Plugins.androidLibrary)
     id(Plugins.kotlinAndroid)
     id(Plugins.kotlinKapt)
     id(Plugins.daggerPlugin)
+    id(Plugins.kotlinParcelize)
+    id(Plugins.kt_lint) version Versions.KT_LINT
 }
 
 android {

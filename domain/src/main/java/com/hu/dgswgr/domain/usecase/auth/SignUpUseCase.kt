@@ -1,6 +1,6 @@
-package com.hu.domain.usecase.auth
+package com.hu.dgswgr.domain.usecase.auth
 
-import com.hu.domain.repository.AuthRepository
+import com.hu.dgswgr.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class SignUpUseCase @Inject constructor(

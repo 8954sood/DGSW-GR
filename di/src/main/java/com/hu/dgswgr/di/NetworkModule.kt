@@ -1,6 +1,7 @@
 package com.hu.dgswgr.di
 
 import com.google.gson.Gson
+import com.hu.dgswgr.remote.service.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,5 +49,9 @@ class NetworkModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun providesAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
 }

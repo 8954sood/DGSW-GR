@@ -1,4 +1,4 @@
-package kr.hs.dgsw.smartschool.domain.exception
+package com.hu.dgswgr.domain.exception
 
 private const val NETWORK_EXCEPTION_MESSAGE = "네트워크 연결을 확인해 주세요."
 
