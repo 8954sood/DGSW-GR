@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.hu.dgswgr.R
+import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
 import com.hu.dgswgr.feature.auth.signup.vm.SignUpViewModel
 import com.hu.dgswgr.root.main.view.MainActivity.Companion.TAG
@@ -57,8 +60,10 @@ import com.hu.dgswgr.ui.theme.Body3
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import com.hu.dgswgr.ui.theme.Title1
 import com.hu.dgswgr.ui.theme.Title3
+import com.hu.dgswgr.utiles.shortToast
 import kotlinx.coroutines.delay
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun SignUpScreen(
@@ -66,7 +71,7 @@ fun SignUpScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
     val signUpSate = signUpViewModel.collectAsState().value
-
+    val context = LocalContext.current
 //    Column() {
 //        Text(text = "test2")
 //
@@ -82,6 +87,17 @@ fun SignUpScreen(
 //        delay(3000)
 //        signUpViewModel.testInputLoading(false)
 //    }
+    signUpViewModel.collectSideEffect { sideEffect ->
+        when (sideEffect) {
+            is SignUpSideEffect.SuccessSignUp -> {
+                context.shortToast("회원가입에 성공했어요!")
+                navController.popBackStack()
+            }
+            is SignUpSideEffect.FailSignUp -> {
+                context.shortToast(sideEffect.throwable.message ?: "회원가입에 실패했어요.")//context.getString(R.string.desc_join_fail))
+            }
+        }
+    }
     AnimatedVisibility(
         visible  = signUpSate.loading,
         enter = fadeIn(),

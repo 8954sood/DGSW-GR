@@ -72,6 +72,12 @@ dependencies {
     implementation(Kotlin.COROUTINES_ANDROID)
     implementation(Kotlin.COROUTINES_CORE)
 
+    // retrofit
+    implementation(Libraries.RETROFIT)
+    implementation(Libraries.RETROFIT_CONVERTER_GSON)
+    implementation(Libraries.OKHTTP)
+    implementation(Libraries.OKHTTP_LOGGING_INTERCEPTOR)
+
     // hilt
     implementation(Google.HILT_ANDROID)
     kapt(Google.HILT_ANDROID_COMPILER)
@@ -85,6 +91,9 @@ dependencies {
     implementation(OrbitMVI.ORBIT_VIEWMODEL)
     testImplementation(OrbitMVI.ORBIT_TEST)
 
+    implementation(project(ProjectProperties.PATH_DOMAIN))
+    implementation(project(ProjectProperties.PATH_DI))
+    implementation(project(ProjectProperties.PATH_DATA))
 
 //    implementation("androidx.core:core-ktx:${Versions.CORE_KTX}")
 //    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

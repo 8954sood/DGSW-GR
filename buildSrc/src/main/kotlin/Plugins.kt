@@ -4,4 +4,5 @@ object Plugins {
     const val kotlinAndroid = "org.jetbrains.kotlin.android"
     const val kotlinKapt = "kotlin-kapt"
     const val daggerPlugin = "dagger.hilt.android.plugin"
+    const val googleDagger = "com.google.dagger.hilt.android"
 }

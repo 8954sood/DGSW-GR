@@ -23,3 +23,5 @@ rootProject.name = "dgswgr"
 include(":presentation")
 include(":domain")
 include(":data")
+include(":di")
+include(":remote")

@@ -4,8 +4,10 @@ object ProjectProperties {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0.0"
 
-    const val NAME_SPACE_DOMAIN = "com.hu.dgswgr.domain"
-    const val NAME_SPACE_DATA = "com.hu.dgswgr.data"
+    const val NAME_SPACE_DOMAIN = "com.hu.domain"
+    const val NAME_SPACE_DATA = "com.hu.data"
+    const val NAME_SPACE_DI = "com.hu.dgswgr.di"
+    const val NAME_SPACE_REMOTE = "com.hu.dgswgr.remote"
 
     const val APPLIACATION_ID = "com.hu.dgswgr"
     const val COMPLIDE_SDK_VERSION = 33
@@ -19,7 +21,7 @@ object ProjectProperties {
     const val PROGUARD_NAME = "proguard-android-optimize.txt"
     const val PROGUARD_FILE = "proguard-rules.pro"
 
-    val JAVA_VERSION = JavaVersion.VERSION_1_8
+    val JAVA_VERSION = JavaVersion.VERSION_17
     val JVM_TARGET = JAVA_VERSION.toString()
 
     const val BUILD_FEATURE_COMPOSE = true
@@ -33,5 +35,7 @@ object ProjectProperties {
 
     const val PATH_PRESENTATION = ":presentation"
     const val PATH_DOMAIN = ":domain"
-    const val PATH_DAATA = ":data"
+    const val PATH_DATA = ":data"
+    const val PATH_DI = ":di"
+    const val PATH_REMOTE = ":remote"
 }

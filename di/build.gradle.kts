@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+
 plugins {
     id(Plugins.androidLibrary)
     id(Plugins.kotlinAndroid)
@@ -5,9 +7,8 @@ plugins {
     id(Plugins.daggerPlugin)
 }
 
-
 android {
-    namespace = ProjectProperties.NAME_SPACE_DOMAIN
+    namespace = ProjectProperties.NAME_SPACE_DI
     compileSdk = ProjectProperties.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -24,7 +25,6 @@ android {
     kotlinOptions {
         jvmTarget = ProjectProperties.JVM_TARGET
     }
-
     packagingOptions {
         resources {
             excludes += ProjectProperties.EXCLUDES
@@ -33,8 +33,9 @@ android {
 }
 
 dependencies {
+    implementation(AndroidX.CORE_KTX)
+    implementation(AndroidX.LIFECYCLE_KTX)
     testImplementation(UnitTest.JUNIT)
-    testImplementation(UnitTest.MOCKITO)
     androidTestImplementation(AndroidTest.ANDROID_JUNIT)
     androidTestImplementation(AndroidTest.ESPRESSO_CORE)
 
@@ -56,4 +57,8 @@ dependencies {
     implementation(AndroidX.ROOM_RUNTIME)
     kapt(AndroidX.ROOM_COMPILER)
     implementation(AndroidX.ROOM_KTX)
+
+    implementation(project(ProjectProperties.PATH_DATA))
+    implementation(project(ProjectProperties.PATH_DOMAIN))
+    implementation(project(ProjectProperties.PATH_REMOTE))
 }
