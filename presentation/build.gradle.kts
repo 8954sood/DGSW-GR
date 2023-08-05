@@ -95,7 +95,8 @@ dependencies {
 
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
-//    implementation(project(ProjectProperties.PATH_DATA))
+    implementation(project(ProjectProperties.PATH_REMOTE))
+    implementation(project(ProjectProperties.PATH_DATA))
 
 //    implementation("androidx.core:core-ktx:${Versions.CORE_KTX}")
 //    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

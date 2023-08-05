@@ -1,6 +1,7 @@
 package com.hu.dgswgr.di
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.hu.dgswgr.remote.service.AuthService
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        val gsonBuilder = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+        return gsonBuilder.create()
+    }
 
     @Provides
     @Singleton

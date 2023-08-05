@@ -7,7 +7,7 @@ import com.hu.dgswgr.remote.utiles.dgswgrApiCall
 import javax.inject.Inject
 
 class AuthRemoteDataSourceImpl @Inject constructor(
-    private val authService: AuthService
+    private val authService: AuthService,
 ) : AuthRemoteDataSource {
 
     override suspend fun singUp(
