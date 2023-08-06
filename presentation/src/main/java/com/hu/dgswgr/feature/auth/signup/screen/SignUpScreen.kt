@@ -408,7 +408,17 @@ private fun SignUpScreen3(
                         containerColor = btnColor,
                         disabledContainerColor = btnColor
                     ),
-                    onClick = { Log.d(TAG, "SignUpScreen2: $signUpState") }
+                    onClick = {
+                        Log.d(TAG, "SignUpScreen2: $signUpState")
+                        singUpViewModel.signUp(
+                            loginId = signUpState.loginId,
+                            password = signUpState.password,
+                            name = signUpState.name,
+                            grade = signUpState.grade,
+                            classNumber = signUpState.classNumber,
+                            studentNumber = signUpState.studentNumber
+                        )
+                    }
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.hu.dgswgr.di
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.hu.dgswgr.remote.service.AuthService
@@ -22,7 +23,6 @@ class NetworkModule {
     @Singleton
     fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
         return gsonBuilder.create()
     }
 
@@ -52,7 +52,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2")
+            .baseUrl("http://10.0.2.2:8000")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
