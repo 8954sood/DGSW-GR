@@ -8,6 +8,7 @@ object ProjectProperties {
     const val NAME_SPACE_DATA = "com.hu.dgswgr.data"
     const val NAME_SPACE_DI = "com.hu.dgswgr.di"
     const val NAME_SPACE_REMOTE = "com.hu.dgswgr.remote"
+    const val NAME_SPACE_LOCAL = "com.hu.dgswgr.local"
 
     const val APPLIACATION_ID = "com.hu.dgswgr"
     const val COMPLIDE_SDK_VERSION = 33
@@ -38,4 +39,5 @@ object ProjectProperties {
     const val PATH_DATA = ":data"
     const val PATH_DI = ":di"
     const val PATH_REMOTE = ":remote"
+    const val PATH_LOCAL = ":local"
 }
