@@ -1,6 +1,9 @@
 package com.hu.dgswgr.feature.auth.signup.vm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.hu.dgswgr.domain.usecase.auth.CheckUseCase
+import com.hu.dgswgr.domain.usecase.auth.LoginUseCase
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
 import com.hu.dgswgr.domain.usecase.auth.SignUpUseCase
@@ -14,7 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val signUpUseCase: SignUpUseCase
+    private val signUpUseCase: SignUpUseCase,
+    private val checkUseCase: CheckUseCase,
+    private val loginUseCase: LoginUseCase
 ): ContainerHost<SignUpState, SignUpSideEffect>, ViewModel() {
 
     override val container = container<SignUpState, SignUpSideEffect>(SignUpState())
@@ -55,6 +60,59 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    fun checkId(
+        loginId: String
+    ) = intent {
+        reduce {
+            state.copy(loading = true)
+        }
+        checkUseCase(
+            param = CheckUseCase.Param(
+                loginId = loginId
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            postSideEffect(SignUpSideEffect.SuccessCheck)
+        }.onFailure {
+            reduce {
+                state.copy(
+                    loading = false,
+                )
+            }
+            postSideEffect(SignUpSideEffect.FailCheck(it))
+        }
+    }
+
+    fun login(
+        loginId: String,
+        password: String,
+    ) = intent {
+        reduce {
+            state.copy(loading = true)
+        }
+        loginUseCase(
+            param = LoginUseCase.Param(
+                loginId = loginId,
+                password = password
+            )
+        ).onSuccess {
+            reduce {
+                state.copy(loading = false)
+            }
+            postSideEffect(SignUpSideEffect.SuccessLogin)
+        }.onFailure {
+            reduce {
+                state.copy(loading = false)
+            }
+            Log.d("LOG", "login: ${it.message}")
+            postSideEffect(SignUpSideEffect.FailLogin(it))
+        }
+    }
+
     fun inputLoginId(text: String) = intent {
         reduce {
             state.copy(loginId = text)
@@ -91,9 +149,28 @@ class SignUpViewModel @Inject constructor(
             state.copy(page = page)
         }
     }
+    fun inputSavePassword(save: Boolean) = intent {
+        reduce {
+            state.copy(saveLogin = save)
+        }
+    }
     fun testInputLoading(loading: Boolean) = intent {
         reduce {
             state.copy(loading = loading)
+        }
+    }
+    fun resetPage() = intent {
+        reduce {
+            state.copy(
+                loginId = "",
+                password = "",
+                name = "",
+                grade = "",
+                classNumber = "",
+                studentNumber = "",
+                page = 0,
+                loading = false
+            )
         }
     }
 

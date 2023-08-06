@@ -11,6 +11,15 @@ interface AuthRepository {
         studentNumber: String,
     )
 
+    suspend fun check(
+        loginId: String
+    )
+
+    suspend fun login(
+        loginId: String,
+        password: String
+    )
+
 //    suspend fun login(loginId: String, password: String, enableAutoLogin: Boolean): Token
 //
 //    suspend fun getIsAutoLogin(): Boolean

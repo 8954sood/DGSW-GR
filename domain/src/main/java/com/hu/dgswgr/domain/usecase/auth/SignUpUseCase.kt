@@ -18,6 +18,7 @@ class SignUpUseCase @Inject constructor(
         )
     }
 
+
     data class Param(
         val loginId: String,
         val password: String,
@@ -26,4 +27,6 @@ class SignUpUseCase @Inject constructor(
         val classNumber: String,
         val studentNumber: String,
     )
+
+
 }

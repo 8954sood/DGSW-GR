@@ -20,9 +20,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -36,6 +38,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -83,10 +86,24 @@ fun SignUpScreen(
         when (sideEffect) {
             is SignUpSideEffect.SuccessSignUp -> {
                 context.shortToast("회원가입에 성공했어요!")
-                navController.popBackStack()
+                signUpViewModel.resetPage()
+//                navController.popBackStack()
             }
             is SignUpSideEffect.FailSignUp -> {
                 context.shortToast(sideEffect.throwable.message ?: "회원가입에 실패했어요.")//context.getString(R.string.desc_join_fail))
+            }
+            is SignUpSideEffect.SuccessCheck -> {
+                context.shortToast("로그인 페이지로 넘어갈게요!")
+                signUpViewModel.setPage(10)
+            }
+            is SignUpSideEffect.FailCheck -> {
+                signUpViewModel.setPage(signUpSate.page + 1)
+            }
+            is SignUpSideEffect.SuccessLogin -> {
+                context.shortToast("로그인 성공")
+            }
+            is SignUpSideEffect.FailLogin -> {
+                context.shortToast("로그인 실패")
             }
         }
     }
@@ -102,7 +119,7 @@ fun SignUpScreen(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        SignUpScreen1(signUpViewModel, signUpSate)
+        MainScreen1(signUpViewModel, signUpSate)
     }
     AnimatedVisibility(
         visible = visibleCheck(1, signUpSate.page, signUpSate.loading),
@@ -110,7 +127,7 @@ fun SignUpScreen(
         exit = fadeOut()
     ) {
 //        PreviewScreen1(signUpViewModel, signUpSate)
-        SignUpScreen2(signUpViewModel, signUpSate)
+        SignUpScreen1(signUpViewModel, signUpSate)
     }
     AnimatedVisibility(
         visible = visibleCheck(2, signUpSate.page, signUpSate.loading),
@@ -118,16 +135,24 @@ fun SignUpScreen(
         exit = fadeOut()
     ) {
 //        PreviewScreen1(signUpViewModel, signUpSate)
-        SignUpScreen3(signUpViewModel, signUpSate)
+        SignUpScreen2(signUpViewModel, signUpSate)
+    }
+    AnimatedVisibility(visible = visibleCheck(10, signUpSate.page, signUpSate.loading),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+//        PreviewScreen1(signUpViewModel, signUpSate)
+        LoginScreen1(signUpViewModel, signUpSate)
     }
 
 }
 
 @OptIn(ExperimentalComposeUiApi::class)
 //@Preview(showSystemUi = true)
+
 @Composable
-private fun SignUpScreen1(
-    singUpViewModel: SignUpViewModel,
+private fun MainScreen1(
+    signUpViewModel: SignUpViewModel,
     signUpState: SignUpState
 ) {
     val focus = LocalFocusManager.current
@@ -151,7 +176,7 @@ private fun SignUpScreen1(
     )
     {
         DgswAppBar(
-            text = "회원가입",
+            text = "로그인 & 회원가입",
             onClick = { Log.d("dd ", "")}
         )
         Row(modifier = Modifier
@@ -181,7 +206,7 @@ private fun SignUpScreen1(
                         .background(DgswgrTheme.color.Black40)
                         .height((0.5).dp),
                     onValueChange = {
-                        singUpViewModel.inputLoginId(it)
+                        signUpViewModel.inputLoginId(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(43.dp))
@@ -192,7 +217,7 @@ private fun SignUpScreen1(
                         containerColor = btnColor,
                         disabledContainerColor = btnColor
                     ),
-                    onClick = { singUpViewModel.setPage(signUpState.page + 1) }
+                    onClick = { signUpViewModel.checkId(loginId) }
                 )
             }
         }
@@ -204,8 +229,100 @@ private fun SignUpScreen1(
 }
 
 @Composable
-private fun SignUpScreen2(
-    singUpViewModel: SignUpViewModel,
+private fun LoginScreen1(
+    signUpViewModel: SignUpViewModel,
+    signUpState: SignUpState
+) {
+    val focus = LocalFocusManager.current
+    val password = signUpState.password
+    val checked = signUpState.saveLogin
+    val btnColor by animateColorAsState(if (password.length >= 8) DgswgrTheme.color.Black else DgswgrTheme.color.Gray, animationSpec = tween(durationMillis = 500, easing = LinearEasing))
+
+
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()
+//        .verticalScroll(scrollState)
+        .pointerInput(Unit) {
+            detectTapGestures(onTap = {
+                focus.clearFocus()
+
+            })
+        }
+    )
+    {
+        DgswAppBar(
+            text = "로그인",
+            onClick = { Log.d("dd ", "") }
+        )
+        Row(modifier = Modifier
+            .padding(16.dp, 0.dp)) {
+            Column {
+                Spacer(modifier = Modifier.height(32.dp))
+                Title1(
+                    text = "비밀번호 입력"
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                DgswgrLongTextField(
+                    value = password,
+                    placeholder = "비밀번호를 입력해주세요.",
+                    decorationBox = Modifier
+                        .fillMaxWidth()
+                        .background(DgswgrTheme.color.Black40)
+                        .height((0.5).dp),
+                    type = KeyboardType.Password,
+                    onValueChange = {
+                        signUpViewModel.inputPassword(it)
+                    }
+                )
+                Box {
+                    Body3(
+                        text = "아직 8자리가 아니에요.",
+                        textColor = animateColorAsState(
+                            if (password.length >= 8 || password.isEmpty()) DgswgrTheme.color.White else DgswgrTheme.color.Red,
+                            animationSpec = tween(durationMillis = 300, easing = LinearEasing)
+                        ).value
+                    )
+                }
+                Spacer(modifier = Modifier.height(151.dp))
+                Row {
+                    Checkbox( // TODO(나중에 디자인 킷 만들어야겠다.. 이거 진짜아니다)
+                        modifier = Modifier.size(15.dp),
+                        checked = checked,
+                        onCheckedChange = {
+                            signUpViewModel.inputSavePassword(it)
+                        }
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Body3(
+                        text = "로그인 정보 기억하기",
+                        textColor = DgswgrTheme.color.Black80,
+                        modifier = Modifier.absoluteOffset(y=(-2).dp)
+                    )
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                DgswgrDefaultButton(
+                    text = "계속하기",
+                    enabled = (password.length >= 8),
+//                    colors = ButtonDefaults.buttonColors(
+//                        containerColor = btnColor,
+//                        disabledContainerColor = btnColor
+//                    ),
+                    onClick = {
+                        signUpViewModel.login(
+                            loginId = signUpState.loginId,
+                            password = signUpState.password
+                        )
+                    }//signUpViewModel.setPage(signUpState.page + 1) }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SignUpScreen1(
+    signUpViewModel: SignUpViewModel,
     signUpState: SignUpState
 ) {
     val focus = LocalFocusManager.current
@@ -248,7 +365,7 @@ private fun SignUpScreen2(
                         .height((0.5).dp),
                     type = KeyboardType.Password,
                     onValueChange = {
-                        singUpViewModel.inputPassword(it)
+                        signUpViewModel.inputPassword(it)
                     }
                 )
                 Box {// TODO(나중에 아마 에러가 여러개일거라서 만듬.)
@@ -297,7 +414,7 @@ private fun SignUpScreen2(
                         containerColor = btnColor,
                         disabledContainerColor = btnColor
                     ),
-                    onClick = { singUpViewModel.setPage(signUpState.page + 1) }
+                    onClick = { signUpViewModel.setPage(signUpState.page + 1) }
                 )
             }
         }
@@ -307,8 +424,8 @@ private fun SignUpScreen2(
 
 //@Preview(showBackground = true)
 @Composable
-private fun SignUpScreen3(
-    singUpViewModel: SignUpViewModel,
+private fun SignUpScreen2(
+    signUpViewModel: SignUpViewModel,
     signUpState: SignUpState
 ) {
     val focus = LocalFocusManager.current
@@ -350,7 +467,7 @@ private fun SignUpScreen3(
                         value = grade,
                         onValueChange = {
                             if (it.isDigitsOnly().not() || it.length > 1) { return@DgswgrNumberField }
-                            singUpViewModel.inputGrade(it)
+                            signUpViewModel.inputGrade(it)
                         }
                     )
                     Title3(
@@ -363,7 +480,7 @@ private fun SignUpScreen3(
                         value = classNumber,
                         onValueChange = {
                             if (it.isDigitsOnly().not() || it.length > 1) { return@DgswgrNumberField }
-                            singUpViewModel.inputClassNumber(it)
+                            signUpViewModel.inputClassNumber(it)
                         }
                     )
                     Title3(
@@ -377,7 +494,7 @@ private fun SignUpScreen3(
                         maxLength = 2,
                         onValueChange = {
                             if (it.isDigitsOnly().not() || it.length > 2) { return@DgswgrNumberField }
-                            singUpViewModel.inputStudentNumber(it)
+                            signUpViewModel.inputStudentNumber(it)
                         }
                     )
                     Title3(
@@ -397,7 +514,7 @@ private fun SignUpScreen3(
                     placeholder = "다시 한번 입력해주세요",
                     onValueChange = {
                         if (it.contains(" ")) { return@DgswgrLongTextField }
-                        singUpViewModel.inputName(it)
+                        signUpViewModel.inputName(it)
                     }
                 )
                 Spacer(modifier = Modifier.height(75.dp))
@@ -410,7 +527,7 @@ private fun SignUpScreen3(
                     ),
                     onClick = {
                         Log.d(TAG, "SignUpScreen2: $signUpState")
-                        singUpViewModel.signUp(
+                        signUpViewModel.signUp(
                             loginId = signUpState.loginId,
                             password = signUpState.password,
                             name = signUpState.name,

@@ -26,4 +26,17 @@ class AuthRepositoryImpl @Inject constructor(
             studentNumber =  studentNumber
         )
     }
+
+    override suspend fun check(loginId: String) {
+        remote.check(
+            loginId = loginId
+        )
+    }
+
+    override suspend fun login(loginId: String, password: String) {
+        remote.login(
+            loginId = loginId,
+            password = password
+        )
+    }
 }

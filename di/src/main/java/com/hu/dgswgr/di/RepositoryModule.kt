@@ -18,4 +18,5 @@ abstract class RepositoryModule {
     abstract fun providesAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
 }

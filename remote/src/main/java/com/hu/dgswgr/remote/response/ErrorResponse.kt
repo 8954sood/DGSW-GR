@@ -6,6 +6,6 @@ data class ErrorResponse(
     @field:SerializedName("status")
     val status: Int,
 
-    @field:SerializedName("message")
+    @field:SerializedName("detail")
     val message: String,
 )
