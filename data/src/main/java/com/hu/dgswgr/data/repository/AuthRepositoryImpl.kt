@@ -2,14 +2,15 @@ package com.hu.dgswgr.data.repository
 
 import com.hu.dgswgr.data.BaseRepository
 import com.hu.dgswgr.data.datasource.DummyCacheDataSource
+import com.hu.dgswgr.data.datasource.auth.AuthCacheDataSource
 import com.hu.dgswgr.data.datasource.auth.AuthRemoteDataSource
 import com.hu.dgswgr.domain.repository.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     override val remote: AuthRemoteDataSource,
-    override val cache: DummyCacheDataSource
-): BaseRepository<AuthRemoteDataSource, DummyCacheDataSource>, AuthRepository {
+    override val cache: AuthCacheDataSource
+): BaseRepository<AuthRemoteDataSource, AuthCacheDataSource>, AuthRepository {
 
     override suspend fun signUp(
         loginId: String,
@@ -39,10 +40,9 @@ class AuthRepositoryImpl @Inject constructor(
         remote.login(
             loginId = loginId,
             password = password
-        )
-    }
-
-    suspend fun dummy() {
-        cache.dummy()
+        ).let {
+            cache.insertToken(it.token)
+            it.token
+        }
     }
 }

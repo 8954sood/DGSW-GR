@@ -1,7 +1,9 @@
 package com.hu.dgswgr.di.module
 
 import com.hu.dgswgr.data.datasource.DummyCacheDataSource
+import com.hu.dgswgr.data.datasource.auth.AuthCacheDataSource
 import com.hu.dgswgr.data.datasource.token.TokenCacheDataSource
+import com.hu.dgswgr.local.datasource.AuthCacheDataSourceImpl
 import com.hu.dgswgr.local.datasource.DummyCacheDataSourceImpl
 import com.hu.dgswgr.local.datasource.TokenCacheDataSourceImpl
 import dagger.Binds
@@ -17,13 +19,19 @@ abstract class CacheDataSourceModule {
 
     @Singleton
     @Binds
-    abstract fun provideTokenCacheDataSource(
+    abstract fun providesTokenCacheDataSource(
         tokenCacheDataSourceImpl: TokenCacheDataSourceImpl
     ): TokenCacheDataSource
 
     @Singleton
     @Binds
-    abstract fun provideDummyCacheDataSource(
+    abstract fun providesAuthCacheDataSource(
+        authCacheDataSourceImpl: AuthCacheDataSourceImpl
+    ): AuthCacheDataSource
+
+    @Singleton
+    @Binds
+    abstract fun providesDummyCacheDataSource(
         dummyCacheDataSourceImpl: DummyCacheDataSourceImpl
     ): DummyCacheDataSource
 }
