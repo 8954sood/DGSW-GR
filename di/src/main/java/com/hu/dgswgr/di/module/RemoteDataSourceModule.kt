@@ -1,4 +1,4 @@
-package com.hu.dgswgr.di
+package com.hu.dgswgr.di.module
 
 import com.hu.dgswgr.data.datasource.auth.AuthRemoteDataSource
 import com.hu.dgswgr.remote.datasource.AuthRemoteDataSourceImpl

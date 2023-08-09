@@ -1,13 +1,16 @@
-package com.hu.dgswgr.di
+package com.hu.dgswgr.di.module
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.hu.dgswgr.di.qualifier.BasicOkhttpClient
+import com.hu.dgswgr.di.qualifier.TokenOkhttpClient
 import com.hu.dgswgr.remote.service.AuthService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kr.hs.dgsw.smartschool.di.qualifier.BasicRetrofit
+import kr.hs.dgsw.smartschool.di.qualifier.TokenRetrofit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,6 +29,7 @@ class NetworkModule {
         return gsonBuilder.create()
     }
 
+    @BasicOkhttpClient
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient {
@@ -37,20 +41,34 @@ class NetworkModule {
         return okhttpBuilder.build()
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideOkHttpClient(): OkHttpClient {
-//        val interceptor = HttpLoggingInterceptor()
-//        interceptor.level = HttpLoggingInterceptor.Level.BODY
-//        val okhttpBuilder = OkHttpClient().newBuilder()
-//            .addInterceptor(interceptor)
-////            .addInterceptor(tokenInterceptor)
-//        return okhttpBuilder.build()
-//    }
-
+    @TokenOkhttpClient
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
+    fun provideTokenOkHttpClient(): OkHttpClient {
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val okhttpBuilder = OkHttpClient().newBuilder()
+            .addInterceptor(interceptor)
+//            .addInterceptor(tokenInterceptor)
+        return okhttpBuilder.build()
+    }
+
+
+    @BasicRetrofit
+    @Provides
+    @Singleton
+    fun provideRetrofit(@BasicOkhttpClient okHttpClient: OkHttpClient, gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("http://10.0.2.2:8000")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    @TokenRetrofit
+    @Provides
+    @Singleton
+    fun provideTokenRetrofit(@TokenOkhttpClient okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://10.0.2.2:8000")
             .client(okHttpClient)
@@ -60,7 +78,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun providesAuthService(retrofit: Retrofit): AuthService =
+    fun providesAuthService(@BasicRetrofit retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
 
 }

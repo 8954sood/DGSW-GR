@@ -62,4 +62,5 @@ dependencies {
     implementation(project(ProjectProperties.PATH_DATA))
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_REMOTE))
+    implementation(project(ProjectProperties.PATH_LOCAL))
 }

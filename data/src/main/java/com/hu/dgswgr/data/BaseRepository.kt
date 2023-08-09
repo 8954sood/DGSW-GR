@@ -1,6 +1,6 @@
 package com.hu.dgswgr.data
 
-interface BaseRepository<REMOTE> {
+interface BaseRepository<REMOTE, CACHE> {
     val remote: REMOTE
-//    val cache: CACHE
+    val cache: CACHE
 }

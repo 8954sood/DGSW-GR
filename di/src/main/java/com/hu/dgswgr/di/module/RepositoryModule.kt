@@ -1,4 +1,4 @@
-package com.hu.dgswgr.di
+package com.hu.dgswgr.di.module
 
 import com.hu.dgswgr.data.repository.AuthRepositoryImpl
 import com.hu.dgswgr.domain.repository.AuthRepository
