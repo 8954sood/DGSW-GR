@@ -9,4 +9,10 @@ object DgswgrUrl {
         const val CHECK = "${AUTH}/check"
         const val LOGIN = "${AUTH}/login"
     }
+
+    object Token {
+        private const val AUTH = "${API}/user"
+        const val TOKEN = "${AUTH}/token"
+
+    }
 }

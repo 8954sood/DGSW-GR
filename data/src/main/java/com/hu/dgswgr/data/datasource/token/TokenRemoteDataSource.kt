@@ -4,5 +4,5 @@ import com.hu.dgswgr.domain.model.token.Token
 
 interface TokenRemoteDataSource {
 
-    suspend fun getToken(): Token
+    suspend fun getToken(token: String): String
 }

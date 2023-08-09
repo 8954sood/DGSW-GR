@@ -6,4 +6,6 @@ interface TokenRepository {
 
     suspend fun getToken(): Token
 
+    suspend fun fetchToken(): Token
+
 }

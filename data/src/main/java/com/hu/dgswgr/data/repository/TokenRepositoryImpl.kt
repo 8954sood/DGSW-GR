@@ -15,6 +15,19 @@ class TokenRepositoryImpl @Inject constructor(
     override suspend fun getToken(): Token =
         cache.getToken()
 
+    override suspend fun fetchToken(): Token =
+        cache.getToken().refreshToken.let { refreshToken ->
+            remote.getToken(refreshToken).let { accessToken ->
+                cache.insertToken(
+                    Token(
+                        token = accessToken,
+                        refreshToken = refreshToken
+                    )
+                ).let {
+                    Token(accessToken, refreshToken)
+                }
+            }
+        }
 
 
 }

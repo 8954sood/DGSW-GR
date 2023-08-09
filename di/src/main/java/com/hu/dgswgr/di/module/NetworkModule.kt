@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.hu.dgswgr.di.qualifier.BasicOkhttpClient
 import com.hu.dgswgr.di.qualifier.TokenOkhttpClient
 import com.hu.dgswgr.remote.service.AuthService
+import com.hu.dgswgr.remote.service.TokenService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +16,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import javax.inject.Singleton
 
 
@@ -80,5 +82,10 @@ class NetworkModule {
     @Provides
     fun providesAuthService(@BasicRetrofit retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesTokenService(@BasicRetrofit retrofit: Retrofit): TokenService =
+        retrofit.create(TokenService::class.java)
 
 }
