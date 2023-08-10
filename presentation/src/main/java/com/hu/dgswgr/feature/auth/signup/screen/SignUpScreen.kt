@@ -47,6 +47,7 @@ import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
 import com.hu.dgswgr.feature.auth.signup.vm.SignUpViewModel
 import com.hu.dgswgr.root.main.view.MainActivity.Companion.TAG
+import com.hu.dgswgr.root.navigation.NavGroup
 import com.hu.dgswgr.ui.components.appbar.DgswAppBar
 import com.hu.dgswgr.ui.components.button.DgswgrDefaultButton
 import com.hu.dgswgr.ui.components.loading.LoadInFullScreen
@@ -100,6 +101,11 @@ fun SignUpScreen(
                 signUpViewModel.setPage(signUpSate.page + 1)
             }
             is SignUpSideEffect.SuccessLogin -> {
+                navController.navigate(NavGroup.Test.Test1) {
+                    popUpTo(NavGroup.Auth.SIGNUP) {
+                        inclusive = true
+                    }
+                }
                 context.shortToast("로그인 성공")
             }
             is SignUpSideEffect.FailLogin -> {
@@ -330,7 +336,6 @@ private fun SignUpScreen1(
     var retryPassword by remember { mutableStateOf("") }
     val btnColor by animateColorAsState(if (password == retryPassword && password.length >= 8) DgswgrTheme.color.Black else DgswgrTheme.color.Gray, animationSpec = tween(durationMillis = 500, easing = LinearEasing))
 
-
     Column(modifier = Modifier
         .fillMaxWidth()
         .fillMaxHeight()
@@ -414,6 +419,11 @@ private fun SignUpScreen1(
                         containerColor = btnColor,
                         disabledContainerColor = btnColor
                     ),
+                    onClick = { signUpViewModel.setPage(signUpState.page + 1) }
+                )
+                Spacer(modifier = Modifier.height(7.dp))
+                DgswgrDefaultButton(
+                    text = "계속하기",
                     onClick = { signUpViewModel.setPage(signUpState.page + 1) }
                 )
             }

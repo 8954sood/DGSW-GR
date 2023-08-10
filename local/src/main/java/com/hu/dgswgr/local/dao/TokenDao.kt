@@ -14,4 +14,5 @@ interface TokenDao : BaseDao<TokenEntity> {
 
     @Query("DELETE FROM ${DgswgrTable.TOKEN}")
     suspend fun deleteToken()
+
 }

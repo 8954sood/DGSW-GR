@@ -20,4 +20,5 @@ class TokenCacheDataSourceImpl @Inject constructor(
 
     override suspend fun insertToken(token: Token) =
         tokenDao.insert(token.toEntity())
+
 }

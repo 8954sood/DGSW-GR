@@ -2,8 +2,10 @@ package com.hu.dgswgr.root.main.view
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,36 +27,51 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.hu.dgswgr.root.main.mvi.MainSideEffect
+import com.hu.dgswgr.root.main.mvi.MainState
+import com.hu.dgswgr.root.main.vm.MainViewModel
 import com.hu.dgswgr.root.navigation.NavigationGraph
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import dagger.hilt.android.AndroidEntryPoint
+import org.orbitmvi.orbit.viewmodel.observe
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel.observe(this, state = ::render, sideEffect = ::handleSideEffect)
+        mainViewModel.checkToken()
+    }
 
-        setContent {
-            val navController = rememberNavController()
-//            val test = remember {
-//                mutableStateOf(0)
-//            }
-//            val textColor by animateColorAsState(if (test.value > 0) Color.Black else Color.White, animationSpec = tween(durationMillis = 700, easing = LinearEasing), finishedListener = { test.value += 1 })
-//            val textColor2 by animateColorAsState(if (test.value > 1) Color.Black else Color.White, animationSpec = tween(durationMillis = 700, easing = LinearEasing))
-            //            LaunchedEffect(Unit) {
-//                test.value += 1
-//            }
-            DgswgrTheme() {
+    private fun render(state: MainState) {
+        state.check?.let {
+            setContent {
+                val navController = rememberNavController()
+                DgswgrTheme() {
 
-                Box {
-//                    Title1(text = "야발")
-                    NavigationGraph(navController = navController)
+                    Box {
+                        NavigationGraph(navController = navController, tokenCheck = it)
+                    }
+
                 }
-                
-            }
 
+            }
+        }
+
+    }
+
+    private fun handleSideEffect(sideEffect: MainSideEffect) {
+        when (sideEffect) {
+            is MainSideEffect.ToastCheckTokenErrorMessage -> {
+                Log.e("MainActivity", sideEffect.throwable.stackTraceToString())
+                Toast.makeText(this, sideEffect.throwable.message, Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
     companion object {
         const val TAG = "LOG"
     }

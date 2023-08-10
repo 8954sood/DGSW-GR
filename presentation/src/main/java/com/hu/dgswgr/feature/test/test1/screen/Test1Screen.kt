@@ -1,20 +1,21 @@
 package com.hu.dgswgr.feature.test.test1.screen
 
-//@Composable
-//fun Test1Screen(
-//    navController: NavController
-//) {
-////    LoadInFullScreen()
-//    Column() {
-//        Text(text = "test1")
-//        Button(onClick = { navController.navigate(NavGroup.Test.Test2) }) {
-//            Text(text = "넘어가기", )
-//        }
-//        DgswButton(onClick = { (Log.d(",", "")) }, content = {
-//            Text(text = "엄")
-//        })
-//    }
-//}
+import android.util.Log
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import com.hu.dgswgr.root.navigation.NavGroup
+import com.hu.dgswgr.ui.theme.Title1
+
+@Composable
+fun Test1Screen(
+    navController: NavController
+) {
+//    LoadInFullScreen()
+    Column() {
+        Title1(text = "로그인 돼 있나봄 ㄷㄷ")
+    }
+}
 //
 //@Composable
 //fun DgswButton(

@@ -8,4 +8,6 @@ interface TokenRepository {
 
     suspend fun fetchToken(): Token
 
+    suspend fun checkToken(): Boolean
+
 }

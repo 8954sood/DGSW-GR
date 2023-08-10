@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.hu.dgswgr.di.qualifier.BasicOkhttpClient
 import com.hu.dgswgr.di.qualifier.TokenOkhttpClient
+import com.hu.dgswgr.remote.interceptor.TokenInterceptor
 import com.hu.dgswgr.remote.service.AuthService
 import com.hu.dgswgr.remote.service.TokenService
 import dagger.Module
@@ -39,19 +40,18 @@ class NetworkModule {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val okhttpBuilder = OkHttpClient().newBuilder()
             .addInterceptor(interceptor)
-//            .addInterceptor(tokenInterceptor)
         return okhttpBuilder.build()
     }
 
     @TokenOkhttpClient
     @Provides
     @Singleton
-    fun provideTokenOkHttpClient(): OkHttpClient {
+    fun provideTokenOkHttpClient(tokenInterceptor: TokenInterceptor): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val okhttpBuilder = OkHttpClient().newBuilder()
             .addInterceptor(interceptor)
-//            .addInterceptor(tokenInterceptor)
+            .addInterceptor(tokenInterceptor)
         return okhttpBuilder.build()
     }
 
