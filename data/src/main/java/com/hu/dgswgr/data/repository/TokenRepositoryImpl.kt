@@ -31,17 +31,12 @@ class TokenRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun deleteToken() =
+        cache.deleteToken()
+
     override suspend fun checkToken(): Boolean {
         return try {
             cache.getToken().token.let {
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
-                Log.d("LOG", "checkToken: $it")
                 it.isNotEmpty()
 
             }

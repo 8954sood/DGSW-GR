@@ -8,6 +8,8 @@ interface TokenRepository {
 
     suspend fun fetchToken(): Token
 
+    suspend fun deleteToken()
+
     suspend fun checkToken(): Boolean
 
 }

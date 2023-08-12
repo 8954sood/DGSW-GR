@@ -93,6 +93,9 @@ dependencies {
     implementation(OrbitMVI.ORBIT_VIEWMODEL)
     testImplementation(OrbitMVI.ORBIT_TEST)
 
+    // coroutine load image
+    implementation(Libraries.COIL)
+
     implementation(project(ProjectProperties.PATH_DOMAIN))
     implementation(project(ProjectProperties.PATH_DI))
     implementation(project(ProjectProperties.PATH_REMOTE))

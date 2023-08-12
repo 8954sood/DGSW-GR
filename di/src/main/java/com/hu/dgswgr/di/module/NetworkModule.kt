@@ -6,7 +6,9 @@ import com.hu.dgswgr.di.qualifier.BasicOkhttpClient
 import com.hu.dgswgr.di.qualifier.TokenOkhttpClient
 import com.hu.dgswgr.remote.interceptor.TokenInterceptor
 import com.hu.dgswgr.remote.service.AuthService
+import com.hu.dgswgr.remote.service.LolService
 import com.hu.dgswgr.remote.service.TokenService
+import com.hu.dgswgr.remote.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -87,5 +89,15 @@ class NetworkModule {
     @Provides
     fun providesTokenService(@BasicRetrofit retrofit: Retrofit): TokenService =
         retrofit.create(TokenService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesUserService(@TokenRetrofit retrofit: Retrofit): UserService =
+        retrofit.create(UserService::class.java)
+
+    @Singleton
+    @Provides
+    fun providesLolService(@TokenRetrofit retrofit: Retrofit): LolService =
+        retrofit.create(LolService::class.java)
 
 }

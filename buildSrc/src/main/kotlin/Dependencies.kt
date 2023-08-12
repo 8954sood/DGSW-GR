@@ -53,6 +53,8 @@ object Libraries {
     const val OKHTTP_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${Versions.OKHTTP}"
 
     const val LOTTIE = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
+
+    const val COIL = "io.coil-kt:coil-compose:${Versions.COIL}"
 }
 
 object OrbitMVI {

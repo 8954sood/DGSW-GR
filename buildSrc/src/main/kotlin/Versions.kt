@@ -29,6 +29,7 @@ object Versions {
     const val LOTTIE = "6.0.0"
 
     const val ORBIT = "4.5.0"
+    const val COIL = "2.4.0"
 
 
 }

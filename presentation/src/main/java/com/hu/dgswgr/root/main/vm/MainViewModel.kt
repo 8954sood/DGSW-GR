@@ -36,6 +36,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun inputCheck(boolean: Boolean) = intent {
+        reduce {
+            state.copy(
+                check = boolean
+            )
+        }
+    }
+
 
 
 }

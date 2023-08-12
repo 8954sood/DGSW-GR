@@ -51,7 +51,8 @@ fun DgswgrLongTextField(
         .background(DgswgrTheme.color.Black40)
         .height((1).dp),
     type: KeyboardType = KeyboardType.Text,
-    onValueChange: (String) -> Unit = {}
+    onValueChange: (String) -> Unit = {},
+    onDone: () ->  Unit = { }
 ) {
     var decorationBox = decorationBox
 //    val isKeyboardOpen by keyboardAsState() // Keyboard.Opened or Keyboard.Closed
@@ -78,6 +79,7 @@ fun DgswgrLongTextField(
         ),
         keyboardActions = KeyboardActions(
             onDone = {
+                onDone()
                 focus.clearFocus()
             }
         ),

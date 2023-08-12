@@ -47,6 +47,7 @@ import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
 import com.hu.dgswgr.feature.auth.signup.vm.SignUpViewModel
 import com.hu.dgswgr.root.main.view.MainActivity.Companion.TAG
+import com.hu.dgswgr.root.main.vm.MainViewModel
 import com.hu.dgswgr.root.navigation.NavGroup
 import com.hu.dgswgr.ui.components.appbar.DgswAppBar
 import com.hu.dgswgr.ui.components.button.DgswgrDefaultButton
@@ -60,14 +61,17 @@ import com.hu.dgswgr.ui.theme.Title3
 import com.hu.dgswgr.utiles.shortToast
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
+import org.orbitmvi.orbit.compose.collectState
 
 @Composable
 fun SignUpScreen(
     navController: NavController,
+    mainViewModel: MainViewModel,
     signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
     val signUpSate = signUpViewModel.collectAsState().value
     val context = LocalContext.current
+    val mainState = mainViewModel.collectAsState().value
 //    Column() {
 //        Text(text = "test2")
 //
@@ -83,6 +87,12 @@ fun SignUpScreen(
 //        delay(3000)
 //        signUpViewModel.testInputLoading(false)
 //    }
+    LaunchedEffect(Unit) {
+
+        if (mainState.check == true) {
+            mainViewModel.inputCheck(false)
+        }
+    }
     signUpViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             is SignUpSideEffect.SuccessSignUp -> {
@@ -101,6 +111,7 @@ fun SignUpScreen(
                 signUpViewModel.setPage(signUpSate.page + 1)
             }
             is SignUpSideEffect.SuccessLogin -> {
+                mainViewModel.inputCheck(true)
                 navController.navigate(NavGroup.Test.Test1) {
                     popUpTo(NavGroup.Auth.SIGNUP) {
                         inclusive = true

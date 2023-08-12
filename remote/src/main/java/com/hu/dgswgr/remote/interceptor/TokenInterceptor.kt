@@ -1,6 +1,7 @@
 package com.hu.dgswgr.remote.interceptor
 
 import com.hu.dgswgr.domain.exception.ExpiredRefreshTokenException
+import com.hu.dgswgr.domain.usecase.token.DeleteTokenUseCase
 import com.hu.dgswgr.domain.usecase.token.FetchTokenUseCase
 import com.hu.dgswgr.domain.usecase.token.GetTokenUseCase
 import com.hu.dgswgr.remote.url.DgswgrUrl.Token.TOKEN
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 class TokenInterceptor @Inject constructor(
     private val getTokenUseCase: GetTokenUseCase,
-    private val fetchTokenUseCase: FetchTokenUseCase
+    private val fetchTokenUseCase: FetchTokenUseCase,
+    private val deleteTokenUseCase: DeleteTokenUseCase
 ) : Interceptor {
 
     private val TOKEN_ERROR = 401
@@ -42,11 +44,12 @@ class TokenInterceptor @Inject constructor(
             runBlocking {
                 fetchTokenUseCase().onSuccess {
                     val refreshToken: Request = chain.request().newBuilder()
-                        .addHeader(TOKEN_HEADER, "Dgswgr $token")
+                        .addHeader(TOKEN_HEADER, "Dgswgr ${it.token}")
                         .build()
                     response = chain.proceed(refreshToken)
 
                     if (response.code == TOKEN_ERROR) {
+                        deleteTokenUseCase.invoke()
                         response = Response.Builder()
                             .request(request)
                             .protocol(Protocol.HTTP_1_1)
@@ -56,6 +59,7 @@ class TokenInterceptor @Inject constructor(
                             .build()
                     }
                 }.onFailure {
+                    deleteTokenUseCase.invoke()
                     response = Response.Builder()
                         .request(request)
                         .protocol(Protocol.HTTP_1_1)

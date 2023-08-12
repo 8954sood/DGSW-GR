@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
@@ -27,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.hu.dgswgr.root.navigation.BottomNavigation
 import com.hu.dgswgr.root.main.mvi.MainSideEffect
 import com.hu.dgswgr.root.main.mvi.MainState
 import com.hu.dgswgr.root.main.vm.MainViewModel
@@ -47,15 +49,21 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun render(state: MainState) {
-        state.check?.let {
+        state.check?.let { check ->
             setContent {
                 val navController = rememberNavController()
-                DgswgrTheme() {
-
-                    Box {
-                        NavigationGraph(navController = navController, tokenCheck = it)
+                DgswgrTheme()
+                {
+                    Scaffold(
+                        bottomBar = { if (check) BottomNavigation(navController = navController) }
+                    ) {
+                        Box(Modifier.padding(it)) {
+                            NavigationGraph(navController = navController, tokenCheck = check, viewModel = mainViewModel)
+                        }
+//                    Box {
+//                        NavigationGraph(navController = navController, tokenCheck = it)
+//                    }
                     }
-
                 }
 
             }

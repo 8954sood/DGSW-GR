@@ -15,4 +15,14 @@ object DgswgrUrl {
         const val TOKEN = "${AUTH}/token"
 
     }
+
+    object Home {
+        private const val AUTH = "${API}/user"
+        const val INFO = "${AUTH}/info"
+    }
+
+    object Lol {
+        private const val AUTH = "${API}/lol"
+        const val SEARCH = "${AUTH}/search"
+    }
 }
