@@ -5,6 +5,6 @@ import com.hu.dgswgr.R
 sealed class BottomNavItem(
     val title: Int, val icon: Int, val screenRoute: String
 ) {
-    object Rank : BottomNavItem(R.string.Rank, R.drawable.rank, NavGroup.Test.Test2)
+    object Rank : BottomNavItem(R.string.Rank, R.drawable.rank, NavGroup.Rank.RANK)
     object User : BottomNavItem(R.string.User, R.drawable.user, NavGroup.Home.HOME)
 }

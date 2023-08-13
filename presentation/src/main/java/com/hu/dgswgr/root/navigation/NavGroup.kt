@@ -13,4 +13,9 @@ sealed class NavGroup(group: String) {
     object Home: NavGroup("home") {
         const val HOME = "home"
     }
+
+    object Rank: NavGroup("rank") {
+        const val RANK = "rank"
+        const val CHOOSE = "choose/{id}"
+    }
 }

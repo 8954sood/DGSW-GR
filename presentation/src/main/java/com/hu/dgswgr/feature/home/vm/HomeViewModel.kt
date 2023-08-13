@@ -3,6 +3,7 @@ package com.hu.dgswgr.feature.home.vm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.hu.dgswgr.domain.usecase.home.HomeInfoUseCase
+import com.hu.dgswgr.domain.usecase.lol.LolCreateUseCase
 import com.hu.dgswgr.domain.usecase.lol.LolSearchUseCase
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpSideEffect
 import com.hu.dgswgr.feature.auth.signup.mvi.SignUpState
@@ -22,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeInfoUseCase: HomeInfoUseCase,
-    private val lolSearchUseCase: LolSearchUseCase
+    private val lolSearchUseCase: LolSearchUseCase,
+    private val lolCreateUseCase: LolCreateUseCase
 ): ContainerHost<HomeState, HomeSideEffect>, ViewModel() {
     override val container = container<HomeState, HomeSideEffect>(HomeState())
 
@@ -81,6 +83,31 @@ class HomeViewModel @Inject constructor(
                 )
             }
             Log.d(TAG, "search: ${it.message}")
+        }
+
+    }
+
+    fun create(name: String) = intent {
+        reduce {
+            state.copy(
+                loading = true
+            )
+        }
+        lolCreateUseCase(
+            LolCreateUseCase.Param(name)
+        ).onSuccess {
+            reduce {
+                state.copy(
+                    loading = false
+                )
+            }
+        }.onFailure {
+            reduce {
+                state.copy(
+                    loading = false
+                )
+            }
+            postSideEffect(HomeSideEffect.FailCreateUser(it))
         }
 
     }

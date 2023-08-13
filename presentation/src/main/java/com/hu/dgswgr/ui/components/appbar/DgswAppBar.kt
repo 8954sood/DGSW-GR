@@ -25,20 +25,23 @@ import com.hu.dgswgr.ui.theme.Title3
 @Composable
 fun DgswAppBar(
     text: String = "테스트",
+    buttonVisible: Boolean = true,
     onClick: () -> Unit = { Log.d("앱바 클릭", "테스트") }
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(33.dp))
         Box {
-            Row {
-                IconButton(
-                    onClick = onClick,
-                    modifier = Modifier.offset(y=(-7).dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
-                        contentDescription = ""
-                    )
+            if (buttonVisible) {
+                Row {
+                    IconButton(
+                        onClick = onClick,
+                        modifier = Modifier.offset(y = (-7).dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
+                            contentDescription = ""
+                        )
+                    }
                 }
             }
             Row(

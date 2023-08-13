@@ -9,7 +9,7 @@ data class HomeState(
     val studentNumber: String = "",
 
     val nickname: String = "",
-    val imageUrl: String = "${DgswgrString.URL}/api/file/static/image/None.png",
+    val imageUrl: String = DgswgrString.NONE,
     val lolName: String = "",
     val level: Int? = null,
     val btnEnabled: Boolean = false,
@@ -20,4 +20,5 @@ data class HomeState(
 
 sealed class HomeSideEffect {
     data class ToastError(val exception: Throwable) : HomeSideEffect()
+    data class FailCreateUser(val exception: Throwable) : HomeSideEffect()
 }

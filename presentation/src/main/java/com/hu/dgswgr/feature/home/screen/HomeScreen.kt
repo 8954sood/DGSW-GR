@@ -92,6 +92,9 @@ fun HomeScreen(
                 context.shortToast(it.exception.message ?: context.getString(R.string.content_unknown_exception))
                 Log.e("HomeScreenError", it.exception.stackTraceToString())
             }
+            is HomeSideEffect.FailCreateUser -> {
+                context.shortToast(it.exception.message ?: "정보 등록에 실패하였습니다.")
+            }
         }
     }
 
@@ -130,7 +133,7 @@ fun HomeScreen(
             }
             DgswAppBar(
                 text = "내정보",
-                onClick = {}
+                buttonVisible = false
             )
             Row(
                 modifier = Modifier
@@ -157,8 +160,8 @@ fun HomeScreen(
                         }
                         Spacer(modifier = Modifier.width(15.dp))
                         Column {
-                            Title2(text = "박박박")
-                            Body1(text = "1학년 1반 1번")
+                            Title2(text = homeState.name)
+                            Body1(text = "${homeState.grade}학년 ${homeState.classNumber}반 ${homeState.studentNumber}번")
                         }
                     }
                     Spacer(modifier = Modifier.height(38.dp))
@@ -294,7 +297,8 @@ fun HomeDialog(
                             text = "등록하기",
                             enabled = homeState.lolName.isNotEmpty(),
                             onClick = {
-
+                                onDismissRequest()
+                                homeViewModel.create(homeState.lolName)
                             }
                         )
                     }

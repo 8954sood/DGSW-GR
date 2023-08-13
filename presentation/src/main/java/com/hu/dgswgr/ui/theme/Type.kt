@@ -34,6 +34,17 @@ val noToSansKR = FontFamily(
 // Set of Material typography styles to start with
 object DgswgrTypography{
     @Stable
+    val body0 = TextStyle(
+        fontFamily = noToSansKR,
+        fontWeight = FontWeight.Normal,
+        fontSize = 18.sp,
+        lineHeight = 20.sp,
+        platformStyle = PlatformTextStyle(
+            includeFontPadding = false
+        )
+    )
+
+    @Stable
     val body1 = TextStyle(
         fontFamily = noToSansKR,
         fontWeight = FontWeight.Normal,
@@ -102,6 +113,20 @@ object DgswgrTypography{
         )
     )
 
+}
+
+@Composable
+fun Body0(
+    modifier: Modifier = Modifier.padding(vertical = 0.dp),
+    text: String,
+    textColor: Color = DgswgrTheme.color.Black60
+) {
+    Text(
+        modifier = modifier,
+        text = text,
+        style = DgswgrTypography.body0,
+        color = textColor,
+    )
 }
 
 @Composable

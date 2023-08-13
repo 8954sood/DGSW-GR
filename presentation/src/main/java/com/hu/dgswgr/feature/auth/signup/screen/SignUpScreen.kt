@@ -432,11 +432,11 @@ private fun SignUpScreen1(
                     ),
                     onClick = { signUpViewModel.setPage(signUpState.page + 1) }
                 )
-                Spacer(modifier = Modifier.height(7.dp))
-                DgswgrDefaultButton(
-                    text = "계속하기",
-                    onClick = { signUpViewModel.setPage(signUpState.page + 1) }
-                )
+//                Spacer(modifier = Modifier.height(7.dp))
+//                DgswgrDefaultButton(
+//                    text = "계속하기",
+//                    onClick = { signUpViewModel.setPage(signUpState.page + 1) }
+//                )
             }
         }
 

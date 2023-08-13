@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 object DgswgrColor {
     val White = Color(0xFFFFFFFF)
     val Gray = Color(0xFFE8E8E8)
+    val DarkGray = Color(0xCC4F4F4F)
     val Red = Color(0xFFFF0D0D)
 
     val Purple80 = Color(0xFFD0BCFF)

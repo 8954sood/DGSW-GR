@@ -9,7 +9,8 @@ import com.hu.dgswgr.local.entity.token.TokenEntity
     entities = [
         TokenEntity::class
     ],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class DgswgrDataBase: RoomDatabase() {
     abstract fun tokenDao(): TokenDao
