@@ -26,7 +26,8 @@ class RankViewModel @Inject constructor(
     ) = intent {
         reduce {
             state.copy(
-                loading = true
+                loading = true,
+                firstTime = false
             )
         }
         lolRankUseCase(

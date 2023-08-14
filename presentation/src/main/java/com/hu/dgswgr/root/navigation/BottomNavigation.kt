@@ -1,5 +1,6 @@
 package com.hu.dgswgr.root.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.BottomNavigation
@@ -16,7 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.hu.dgswgr.root.main.view.MainActivity.Companion.TAG
 
 
 //@Composable
@@ -40,7 +43,11 @@ fun BottomNavigation(
         BottomNavItem.User
     )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    val currentRoute = navBackStackEntry?.destination//?.route
+//    Log.d(TAG, "BottomNavigation: ${navBackStackEntry?.destination?.hierarchy?.any { it. } }}")
+    Log.d(TAG, "BottomNavigation: ${navBackStackEntry?.destination?.id}")
+//    Log.d(TAG, "BottomNavigation: $currentRoute")
+
 
     BottomNavigation(
         backgroundColor = Color.White,
@@ -60,7 +67,7 @@ fun BottomNavigation(
                 label = { Text(stringResource(id = item.title), fontSize = 9.sp) },
                 selectedContentColor = MaterialTheme.colors.primary,
                 unselectedContentColor = Color.Gray,
-                selected = currentRoute == item.screenRoute,
+                selected = currentRoute?.hierarchy?.any { it.route == item.screenRoute } == true,//currentRoute == item.screenRoute,
                 alwaysShowLabel = false,
                 onClick = {
                     navController.navigate(item.screenRoute) {

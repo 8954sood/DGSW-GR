@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navigation
 import com.hu.dgswgr.feature.auth.signup.screen.SignUpScreen
 import com.hu.dgswgr.feature.home.screen.HomeScreen
 import com.hu.dgswgr.feature.rank.choose.screen.RankChooseScreen
@@ -43,25 +44,29 @@ fun NavigationGraph(
             HomeScreen(navController = navController)
         }
 
+        navigation(
+            startDestination = NavGroup.Rank.RANK,
+            route=NavGroup.Rank.ROOT
+        ) {
+            composable(NavGroup.Rank.RANK) {
+                RankScreen(navController = navController)
+            }
 
-        composable(NavGroup.Rank.RANK) {
-            RankScreen(navController = navController)
-        }
-
-        composable(
-            NavGroup.Rank.CHOOSE,
-            arguments = listOf(
-                navArgument("id") {
-                    type = NavType.StringType
-                }
-            )
-        ) { entry ->
-            val ids = entry.arguments?.getString("id")
-            ids?.let {
-                RankChooseScreen(
-                    navController = navController,
-                    id = it.toInt()
+            composable(
+                NavGroup.Rank.CHOOSE,
+                arguments = listOf(
+                    navArgument("id") {
+                        type = NavType.StringType
+                    }
                 )
+            ) { entry ->
+                val ids = entry.arguments?.getString("id")
+                ids?.let {
+                    RankChooseScreen(
+                        navController = navController,
+                        id = it.toInt()
+                    )
+                }
             }
         }
     }

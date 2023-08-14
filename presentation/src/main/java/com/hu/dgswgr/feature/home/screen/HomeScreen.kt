@@ -82,7 +82,7 @@ fun HomeScreen(
     homeViewModel.collectSideEffect {
         when (it) {
             is HomeSideEffect.ToastError -> {
-                if (it.exception.message == context.getString(R.string.text_session)) {
+                if (it.exception.message == context.getString(R.string.text_session) || it.exception.message == "토큰이 만료되어 로그인이 필요해요.") {
                     navController.navigate(NavGroup.Auth.SIGNUP) {
                         popUpTo(NavGroup.Home.HOME) {
                             inclusive = true

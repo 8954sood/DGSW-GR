@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,14 +31,22 @@ fun DgswAppBar(
     buttonVisible: Boolean = true,
     onClick: () -> Unit = { Log.d("앱바 클릭", "테스트") }
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Spacer(modifier = Modifier.height(33.dp))
-        Box {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+    ) {
+        Box(
+            modifier = Modifier.height(60.dp)
+        ) {
             if (buttonVisible) {
-                Row {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     IconButton(
                         onClick = onClick,
-                        modifier = Modifier.offset(y = (-7).dp)
+//                        modifier = Modifier.offset(y = (-8).dp)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.baseline_keyboard_arrow_left_24),
@@ -45,13 +56,16 @@ fun DgswAppBar(
                 }
             }
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Title3(text = text)
             }
         }
-        Spacer(modifier = Modifier.height((18.5).dp))
+//        Spacer(modifier = Modifier.height((18.5).dp))
         dgswgrLine(
             color = DgswgrTheme.color.Black60
         )

@@ -54,7 +54,9 @@ fun RankScreen(
     val focus = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
-        rankViewModel.load("tier")
+        if (rankState.firstTime) {
+            rankViewModel.load("tier")
+        }
     }
 
     AnimatedVisibility(
