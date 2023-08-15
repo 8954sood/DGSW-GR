@@ -3,6 +3,7 @@ package com.hu.dgswgr.data.repository
 import com.hu.dgswgr.data.BaseRepository
 import com.hu.dgswgr.data.datasource.DummyCacheDataSource
 import com.hu.dgswgr.data.datasource.lol.LolRemoteDataSource
+import com.hu.dgswgr.domain.model.lol.LolInfo
 import com.hu.dgswgr.domain.model.lol.LolRank
 import com.hu.dgswgr.domain.model.lol.LolSearch
 import com.hu.dgswgr.domain.repository.LolRepository
@@ -24,5 +25,12 @@ class LolRepositoryImpl @Inject constructor(
     }
 
     override suspend fun rank(category: String): List<LolRank> =
-        remote.rank(category)
+        remote.rank(
+            category = category
+        )
+
+    override suspend fun info(id: Int): LolInfo =
+        remote.info(
+            id = id
+        )
 }

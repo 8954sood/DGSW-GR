@@ -1,5 +1,6 @@
 package com.hu.dgswgr.remote.utiles
 
+import android.util.Log
 import com.google.gson.Gson
 import com.hu.dgswgr.remote.response.ErrorResponse
 import com.hu.dgswgr.domain.exception.BadRequestException
@@ -84,6 +85,7 @@ suspend inline fun <T> dgswgrApiCall(
     } catch (e: NoConnectivityException) {
         throw NoConnectivityException()
     } catch (e: Exception) {
+        Log.d("LOG", "dgswgrApiCall: $e")
         throw UnknownException(
             message = e.message,
         )

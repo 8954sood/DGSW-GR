@@ -8,6 +8,6 @@ data class LolRankResponse(
     @field:SerializedName("level") val level: Int,
     @field:SerializedName("name") val name: String,
     @field:SerializedName("student") val student: String,
-    @field:SerializedName("tier_icon") val tier_icon: String,
-    @field:SerializedName("tier_str") val tier_str: String
+    @field:SerializedName("tier_icon") val tierIcon: String,
+    @field:SerializedName("tier_str") val tierStr: String
 )

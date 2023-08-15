@@ -26,5 +26,6 @@ object DgswgrUrl {
         const val SEARCH = "${AUTH}/search"
         const val CREATE = "${AUTH}/create"
         const val RANK = "${AUTH}/rank"
+        const val INFO = "${AUTH}/info"
     }
 }

@@ -8,6 +8,6 @@ data class LolRank(
     val level: Int,
     val name: String,
     val student: String,
-    val tier_icon: String?,
-    val tier_str: String
+    val tierIcon: String?,
+    val tierStr: String
 )

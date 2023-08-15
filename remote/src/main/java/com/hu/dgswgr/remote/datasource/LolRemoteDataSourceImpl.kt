@@ -1,6 +1,8 @@
 package com.hu.dgswgr.remote.datasource
 
+import android.util.Log
 import com.hu.dgswgr.data.datasource.lol.LolRemoteDataSource
+import com.hu.dgswgr.domain.model.lol.LolInfo
 import com.hu.dgswgr.domain.model.lol.LolRank
 import com.hu.dgswgr.domain.model.lol.LolSearch
 import com.hu.dgswgr.remote.mapper.toModel
@@ -24,6 +26,12 @@ class LolRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun rank(category: String): List<LolRank> = dgswgrApiCall {
         lolService.rank(category = category).data.toModel()
+    }
+
+    override suspend fun info(id: Int): LolInfo =  dgswgrApiCall {
+        val data = lolService.info(id).data
+        Log.d("TAG", "info: ${data}")
+        data.toModel()
     }
 
 }

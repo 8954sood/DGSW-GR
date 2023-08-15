@@ -1,5 +1,6 @@
 package com.hu.dgswgr.ui.items
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -24,9 +25,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
 import com.hu.dgswgr.R
+import com.hu.dgswgr.root.main.view.MainActivity.Companion.TAG
 import com.hu.dgswgr.ui.theme.Body3
 import com.hu.dgswgr.ui.theme.DgswgrTheme
 import com.hu.dgswgr.ui.theme.Title2
+import com.hu.dgswgr.utiles.replaceUrl
 
 
 @Composable
@@ -62,7 +65,7 @@ fun DgswgrRankItemsLol(
                     Row {
                         Box {
                             Image(
-                                painter = rememberAsyncImagePainter(model = tier_icon),//painterResource(id = tier_icon),
+                                painter = rememberAsyncImagePainter(model = tier_icon?.replaceUrl()),//painterResource(id = tier_icon),
                                 contentDescription = "LOL Rank Tier Icon",
                                 modifier = Modifier
                                     .size(20.dp)

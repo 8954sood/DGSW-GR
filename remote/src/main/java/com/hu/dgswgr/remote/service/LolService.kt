@@ -2,6 +2,7 @@ package com.hu.dgswgr.remote.service
 
 import com.hu.dgswgr.remote.request.lol.LolCreateRequest
 import com.hu.dgswgr.remote.response.Response
+import com.hu.dgswgr.remote.response.lol.LolInfoResponse
 import com.hu.dgswgr.remote.response.lol.LolRankResponse
 import com.hu.dgswgr.remote.response.lol.LolSearchResponse
 import com.hu.dgswgr.remote.url.DgswgrUrl
@@ -27,4 +28,9 @@ interface LolService {
     suspend fun rank(
         @Query("category") category: String
     ): Response<List<LolRankResponse>>
+
+    @GET(DgswgrUrl.Lol.INFO)
+    suspend fun info(
+        @Query("id") id: Int
+    ): Response<LolInfoResponse>
 }

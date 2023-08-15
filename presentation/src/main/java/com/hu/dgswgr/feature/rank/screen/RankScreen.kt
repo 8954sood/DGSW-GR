@@ -119,8 +119,8 @@ fun RankScreen(
                     DgswgrRankItemsLol(
                         name = item.name,
                         profile_icon = item.icon,
-                        tier_icon = item.tier_icon,
-                        tier_str = item.tier_str,
+                        tier_icon = item.tierIcon,
+                        tier_str = item.tierStr,
                         level = item.level,
                         studentInfo = item.student,
                         onClick = {
