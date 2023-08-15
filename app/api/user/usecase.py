@@ -57,7 +57,7 @@ class ReadByLoginUser:
 class ReadByIdUser:
     def __init__(self, session: AsyncSession) -> None:
         self.async_session = session
-    async def execute(self, id: int) -> dict: #AsyncIterator[]:
+    async def execute(self, id: int) -> UserTable: #AsyncIterator[]:
         async with self.async_session() as session:
             _user = (await session.execute(select(UserTable).filter(UserTable.id == id))).scalars().first()
             if not _user:
@@ -69,7 +69,7 @@ class ReadByLoginIdUser:
     async def execute(self, login_id: int) -> dict: #AsyncIterator[]:
         async with self.async_session() as session:
             _user = (await session.execute(select(UserTable).filter(UserTable.login_id == login_id))).scalars().first()
-            if _user:
+            if not _user:
                 raise HTTPException(status_code=404, detail="that's duplication id")
             return
 

@@ -23,11 +23,18 @@ from .usecase import ReadAllUser, CreateUser, DeleteUser, UpdateUser, ReadByLogi
 #Load Jwt
 # from async_fastapi_jwt_auth import AuthJWT
 # from async_fastapi_jwt_auth.exceptions import AuthJWTException
-from models import auth as jwt
-from models import JWTCheck
+# from models import JWTCheck, auth as jwt
+from ..models import JWTCheck, auth as jwt
 
 #ErrorResponse
 from starlette.responses import JSONResponse
+from ..models import TokenException
+
+#Response
+from ..models import baseResponse
+
+#Utile
+from ..models import requestsToken
 
 #db session
 import sys
@@ -55,11 +62,14 @@ async def create(
     data: CreateUserRequest,
     session: AsyncSession= Depends(get_session)
 ):
+    print("조인")
     usecase = CreateUser(session)
-    result = await usecase.execute(data.login_id, data.password, data.name, data.grade, data.class_id, data.number)
+    number = data.number if len(data.number) > 1 else "0"+data.number
+    result = await usecase.execute(data.login_id, data.password, data.name, data.grade, data.class_id, number)
     print(result.login_id)
-    return {"result": "success"}
+    return {"message": "success", "status": 200, "data": None}
     ""
+
 @router.post("/check", tags=["user"])
 async def check(
     request: Request,
@@ -68,7 +78,7 @@ async def check(
 ):
     usecase = ReadByLoginIdUser(session)
     await usecase.execute(data.login_id)
-    return {"result": False}
+    return {"message": "success", "status": 200, "data": None}
     ""
 
 @router.delete("/delete", tags=["user"])
@@ -104,7 +114,8 @@ async def login(
     '''
     프레쉬 토큰을 db에 저장하고, 그에따른 aceess token을 재발급 한다? = 
     현재 리프레쉬 토큰은 id.refresh로 만들어지기에 refresh token을 디코드 -> id값만 다시 token화 기'''
-    return {"refresh_token": refresh_token, "access_token": access_token}
+    return baseResponse(data={"refresh_token": refresh_token, "access_token": access_token})
+    # return {"data": {"refresh_token": refresh_token, "access_token": access_token}, "message": "Success", "status": 200}
     
     ""
 @router.post("/token", tags=["user"])
@@ -120,18 +131,24 @@ async def token(
     user = await usecase.execute(result) # 한번더 찾는 이유: 검증을 위해서
     
     access_token = await jwt.async_create_access_token(user)
-    return access_token
+    return baseResponse(data=access_token)
 
-@router.post("/info", tags=["user"])
+@router.get("/info", tags=["user"])
 async def info(
     request: Request,
-    data: TokenRequest,
     session: AsyncSession= Depends(get_session)
 ):
-    result = await JWTCheck.accessToken(jwt, data.token)
+    token = requestsToken(request)
+    result = await JWTCheck.accessToken(jwt, token)
     usecase = ReadByIdUser(session)
     user = await usecase.execute(result) # 한번더 찾는 이유: 검증을 위해서
-    return {"user": user}
+    data = {
+        "name": user.name,
+        "grade": user.grade,
+        "class_id": user.class_id,
+        "number": user.number,
+    }
+    return  baseResponse(data=data)
 # @router.get("/info", tags=["user"])
 # # async def 
 # @router.post("/test", tags=["user"])

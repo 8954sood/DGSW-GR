@@ -13,7 +13,10 @@ class UserTable(Base):
     login_id: Mapped[str] = mapped_column(nullable=False, unique=True)
     password: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column( nullable=False)
-    grade: Mapped[int] = mapped_column(nullable=False)
-    class_id: Mapped[int] = mapped_column(nullable=False)
-    number: Mapped[int] = mapped_column(nullable=False)
+    grade: Mapped[str] = mapped_column(nullable=False)
+    class_id: Mapped[str] = mapped_column(nullable=False)
+    number: Mapped[str] = mapped_column(nullable=False)
+    # grade: Mapped[int] = mapped_column(nullable=False)
+    # class_id: Mapped[int] = mapped_column(nullable=False)
+    # number: Mapped[int] = mapped_column(nullable=False)
 

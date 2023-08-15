@@ -4,7 +4,7 @@ from models import TokenRequestSchema as TokenRequest
 class SearchRequest(BaseModel):
     name: str
 
-class CreateUserRequest(TokenRequest):
+class CreateUserRequest(BaseModel):
     name: str
 
 class EditUserRequest(TokenRequest):
@@ -19,10 +19,13 @@ class InfoUserResponse(BaseModel):
     class_id: int
     number: int
     nickname: str
-    tier_str: str
-    tier_int: int
     level: int
-    profile_id: int
-    profile_icon: str
-    puu_id: str
+    icon: str
+    most: list
+    kda: str
+    tier_str: str
+    tier_point: str
+    tier_icon: str
+    win_lose: str
+    win_rate: str
     

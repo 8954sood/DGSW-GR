@@ -5,9 +5,9 @@ class CreateUserRequest(BaseModel):
     login_id: str
     password: str
     name: str
-    grade: int
-    class_id: int
-    number: int
+    grade: str
+    class_id: str
+    number: str
 
 class CreateUserResponse(UserSchema):
     pass
